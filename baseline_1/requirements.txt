@@ -1,0 +1,10 @@
+# Baseline 1 — Augusto et al. (Python port of the Java replication package)
+# Python 3.9+
+
+python-dotenv>=1.0.0
+
+# Gemini provider
+google-generativeai>=0.7.0
+
+# DeepSeek provider (OpenAI-compatible)
+openai>=1.30.0

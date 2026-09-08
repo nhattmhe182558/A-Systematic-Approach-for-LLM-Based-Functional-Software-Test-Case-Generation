@@ -1,0 +1,35 @@
+{
+  "project_name": "Training Request Approval System",
+  "use_cases": [
+    {
+      "id": "UC-01",
+      "name": "Submit Training Request",
+      "description": "An employee submits a request to attend a training course.",
+      "preconditions": ["Employee is logged in"],
+      "postconditions": ["Request is saved with status 'Pending'"],
+      "expected_results": "The request appears in the manager's approval queue.",
+      "normal_flow": [
+        "Employee opens the training request form",
+        "Employee fills in course name, date, and cost",
+        "Employee submits the form"
+      ],
+      "alternative_flows": ["Employee saves the request as a draft"],
+      "exceptions": ["Cost exceeds the employee's annual training budget"]
+    },
+    {
+      "id": "UC-02",
+      "name": "Approve Training Request",
+      "description": "A manager approves or rejects a pending training request.",
+      "preconditions": ["Manager is logged in", "A pending request exists"],
+      "postconditions": ["Request status is updated to 'Approved' or 'Rejected'"],
+      "expected_results": "The employee is notified of the decision.",
+      "normal_flow": [
+        "Manager opens the approval queue",
+        "Manager selects a pending request",
+        "Manager approves or rejects with a comment"
+      ],
+      "alternative_flows": [],
+      "exceptions": ["Request was withdrawn by the employee before decision"]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+If the employee submits a training request with a cost within the annual budget, then the request is saved with status Pending.
+If the employee submits a training request with a cost exceeding the annual budget, then the system rejects the request and shows a budget error.
+If a manager approves a pending request, then the request status becomes Approved and the employee is notified.
+If a manager rejects a pending request, then the request status becomes Rejected and the employee is notified with the reason.
+If an employee withdraws a request before a decision is made, then the request is removed from the manager's approval queue.
+If the employee submits a request with a missing course name, then the system shows a validation error and does not save the request.
