@@ -1,0 +1,74 @@
+{
+  "test_case_id": "MTC-055",
+  "path_number": "E1",
+  "use_case_id": "FR-011",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard Page",
+    "Course Details Page (Sessions Tab)"
+  ],
+  "current_screen": "2.1.1.3 SC-005: Course Details Page",
+  "path_step": "System unavailability during deletion of an existing session.",
+  "test_scenario": "Test the system's behavior when the session management service or database is unavailable during a session deletion attempt for FR-011.",
+  "test_case_title": "Verify System Behavior on Service Unavailability during Session Deletion (FR-011)",
+  "pre_condition": "Teacher is logged in, on the 'Sessions' tab of a course with at least one existing session. The session management service/database is simulated to be unavailable.",
+  "expected_result": "System logs a critical error. A generic error message \"Session management service is temporarily unavailable. Please try again later.\" is displayed. The session is not deleted.",
+  "post_condition": "The session management service/database remains unavailable (for testing purposes), critical error logged, session list unchanged.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Log in as a Teacher.",
+      "screen": "Landing Page",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Navigate to the Dashboard.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Select a course to view its details.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Navigate to the 'Sessions' tab.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Simulate session management service/database unavailability.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Delete' button next to an existing session.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Confirm the deletion when prompted.",
+      "screen": "Confirmation Dialog",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that a critical error is logged by the system.",
+      "screen": "System Logs",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that a generic error message \"Session management service is temporarily unavailable. Please try again later.\" is displayed to the user.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the session is still present in the list and has not been deleted.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [],
+  "uncovered_conditions": [
+    "E1: System Unavailable for session management"
+  ]
+}

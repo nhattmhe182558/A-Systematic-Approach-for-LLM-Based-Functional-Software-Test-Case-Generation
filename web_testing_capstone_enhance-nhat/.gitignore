@@ -1,0 +1,7 @@
+env/
+
+.env
+
+full_log1.json
+full_log2.json
+full_log.json

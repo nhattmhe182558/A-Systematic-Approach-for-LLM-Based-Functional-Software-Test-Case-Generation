@@ -1,0 +1,76 @@
+{
+  "test_case_id": "MTC-054",
+  "path_number": "FR-018-01",
+  "use_case_id": "FR-018",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard Page",
+    "Course Details Page"
+  ],
+  "current_screen": "2.1.1.5.4 Files Tab",
+  "path_step": "Successfully deleting an existing file group.",
+  "test_scenario": "Verify that a Teacher can successfully delete an existing file group from a course.",
+  "test_case_title": "Verify Teacher can Delete an Existing File Group",
+  "pre_condition": "A Teacher is logged into the system and has navigated to the 'Files' tab of a course that contains at least one existing file group.",
+  "expected_result": "The specified file group is successfully removed from the course's file tree, and the updated file structure is displayed without the deleted group.",
+  "post_condition": "The file group no longer exists within the course's file management system.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Log in as a Teacher.",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Navigate to the Dashboard Page (2.1.1.2 SC-004).",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Select and navigate to the Course Details Page (2.1.1.3 SC-005) for a course containing file groups.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click on the 'Files' tab to access file management.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Locate an existing file group within the displayed File Tree.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Delete' button (element: Edit/Delete Buttons) next to the identified file group.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Confirm the deletion when prompted by the system confirmation dialog.",
+      "screen": "System Dialog",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Teacher Username",
+      "field_value": "teacher_user@example.com"
+    },
+    {
+      "field_name": "Teacher Password",
+      "field_value": "SecurePass123"
+    },
+    {
+      "field_name": "Course Name",
+      "field_value": "Advanced Web Development"
+    },
+    {
+      "field_name": "File Group Name to Delete",
+      "field_value": "Assignment Resources"
+    }
+  ],
+  "uncovered_conditions": [
+    "Deletion of an entire file group as described in UC-COM-08: Manage Files, rather than just a single file."
+  ]
+}

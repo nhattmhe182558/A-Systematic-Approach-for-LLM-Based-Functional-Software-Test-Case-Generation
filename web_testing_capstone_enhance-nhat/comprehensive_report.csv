@@ -1,0 +1,64 @@
+Business Process,Use Case,Test Case,Category,Steps Executed,Is Success
+business_process_1,UC-COM-01,TC-001,Success,9,1
+business_process_1,UC-COM-03,TC-021,Success,14,1
+business_process_1,UC-COM-04,TC-025,Unknown Failure,11,0
+business_process_1,UC-COM-06,TC-028,Success,17,1
+business_process_1,UC-COM-08,TC-043,Success,22,1
+business_process_1,UC-COM-11,TC-045,Success,3,1
+business_process_1,UC-COM-02,TC-046,Success,20,1
+business_process_1,UC-COM-11,TC-096,Success,3,1
+business_process_1,UC-COM-01,TC-097,Success,8,1
+business_process_1,UC-COM-05,TC-099,Success,14,1
+business_process_1,UC-COM-11,TC-104,Success,3,1
+business_process_1,UC-COM-01,TC-105,Success,19,1
+business_process_1,UC-COM-07,TC-107,Success,24,1
+business_process_1,UC-COM-11,TC-115,Success,4,1
+business_process_1,UC-COM-01,TC-116,Success,9,1
+business_process_1,UC-COM-07,TC-117,Invalid Action,15,0
+business_process_1,UC-COM-06,TC-118,Unknown Failure,21,0
+business_process_1,UC-COM-08,TC-119,Success,19,1
+business_process_1,UC-COM-11,TC-120,Success,19,1
+business_process_1,UC-COM-01,TC-121,Success,8,1
+business_process_1,UC-COM-09,TC-122,Success,12,1
+business_process_1,UC-COM-01,TC-123,Success,18,1
+business_process_1,UC-COM-09,TC-124,Invalid Action,18,0
+business_process_1,UC-COM-09,TC-125,Success,14,1
+business_process_1,UC-COM-09,TC-129,Assertion Failure,11,0
+business_process_1,UC-COM-09,TC-130,Invalid Action,18,0
+business_process_1,UC-COM-11,TC-131,Success,16,1
+business_process_1,UC-COM-01,TC-132,Success,18,1
+business_process_1,UC-COM-10,TC-133,Success,20,1
+business_process_1,UC-COM-11,TC-134,Success,16,1
+business_process_2,FR-003,TC-135,Success,8,1
+business_process_2,FR-003,TC-136,Success,10,1
+business_process_2,FR-003,TC-137,Success,11,1
+business_process_2,FR-003,TC-138,Success,11,1
+business_process_2,UC-COM-01,TC-139,Success,12,1
+business_process_3,UC-COM-01,TC-140,Unknown Failure,13,0
+business_process_3,FR-006,TC-141,Success,14,1
+business_process_3,FR-006,TC-143,Success,18,1
+business_process_3,FR-006,TC-144,Invalid Action,1,0
+business_process_3,UC-COM-11,TC-145,Success,16,1
+business_process_4,UC-COM-01,TC-146,Success,8,1
+business_process_4,UC-COM-01,TC-147,Success,10,1
+business_process_4,UC-COM-05,TC-148,Success,13,1
+business_process_4,UC-COM-05,TC-149,Success,9,1
+business_process_4,UC-COM-05,TC-150,Invalid Action,15,0
+business_process_4,UC-COM-05,TC-151,Assertion Failure,11,0
+business_process_4,UC-COM-11,TC-152,Success,4,1
+business_process_5,UC-COM-05,TC-153,Success,15,1
+business_process_5,UC-COM-01,TC-154,Success,10,1
+business_process_5,UC-COM-08,TC-155,Success,13,1
+business_process_5,UC-COM-08,TC-156,Invalid Action,13,0
+business_process_5,FR-018,TC-157,Assertion Failure,13,0
+business_process_5,UC-COM-08,TC-158,Success,21,1
+business_process_5,FR-011,TC-159,Invalid Action,19,0
+business_process_5,UC-COM-11,TC-160,Success,16,1
+business_process_6,UC-COM-01,TC-161,Invalid Action,17,0
+business_process_6,UC-COM-03,TC-162,Success,13,1
+business_process_6,,TC-163,Success,15,1
+business_process_6,FR-006,TC-164,Success,17,1
+business_process_6,FR-006,TC-165,Success,9,1
+business_process_6,FR-006,TC-166,Invalid Action,20,0
+business_process_6,FR-006,TC-167,Invalid Action,11,0
+business_process_6,UC-COM-11,TC-168,Success,17,1

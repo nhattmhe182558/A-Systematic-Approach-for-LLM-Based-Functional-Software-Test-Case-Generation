@@ -1,0 +1,108 @@
+{
+  "test_config": {
+    "website_url": "https://localhost:5000/#/",
+    "timestamp": "2025-12-13T22:52:40.145396",
+    "browser": "Chrome",
+    "test_mode": "Dynamic Generation"
+  },
+  "summary": {
+    "total": 4,
+    "success": 0,
+    "failed": 4,
+    "pages_explored": 1,
+    "navigation_actions": 0,
+    "generated_tests": 0
+  },
+  "exploration": {
+    "explored_urls": [
+      "https://localhost:5000/#/"
+    ],
+    "navigation_path": []
+  },
+  "results": [
+    {
+      "id": "TC_1765641153_5900",
+      "functionality": "Verify SignUp Link Navigation",
+      "description": "Verify that clicking the 'SIGN UP' link navigates the user to the registration page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 3 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Test Error",
+          "status": "failed",
+          "details": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+        }
+      ],
+      "error": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+    },
+    {
+      "id": "TC_1765641154_2078",
+      "functionality": "Verify Login Link Navigation",
+      "description": "Verify that clicking the 'LOG IN' link navigates the user to the login page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 2 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Test Error",
+          "status": "failed",
+          "details": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+        }
+      ],
+      "error": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+    },
+    {
+      "id": "TC_1765641155_1257",
+      "functionality": "Verify GitHub Repository Link",
+      "description": "Verify that the 'GitHub repository' link navigates to the correct GitHub page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 3 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Test Error",
+          "status": "failed",
+          "details": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+        }
+      ],
+      "error": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+    },
+    {
+      "id": "TC_1765641156_5386",
+      "functionality": "Verify Logo Link Navigation",
+      "description": "Verify that clicking the logo navigates the user to the homepage.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 3 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Test Error",
+          "status": "failed",
+          "details": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+        }
+      ],
+      "error": "'RealBrowserLLMTester' object has no attribute 'execute_test_action'"
+    }
+  ]
+}

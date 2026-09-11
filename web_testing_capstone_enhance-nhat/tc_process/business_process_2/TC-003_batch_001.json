@@ -1,0 +1,40 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:53:24"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-137",
+      "path_number": "3",
+      "use_case_id": "FR-003",
+      "navigation_sequence": [
+        "2.1.1.1 SC-001: Landing Page"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Access reset page",
+      "test_scenario": "BUSINESS FLOW 2: USER ACCOUNT RECOVERY SCENARIO",
+      "test_case_title": "Access Password Reset Page via Recovery Link",
+      "pre_condition": "A user has previously initiated the password reset process, and a unique, time-sensitive password recovery link has been sent to their registered email address. The system is online and able to process authentication requests.",
+      "expected_result": "The secure password reset page is successfully accessed, allowing the user to create a new password. The system verifies the validity of the recovery link.",
+      "post_condition": "The user is on the secure password reset page, prompted to enter a new password.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Access the recovery email in the user's inbox.",
+          "screen": "External Email Client",
+          "step_type": "path_action"
+        },
+        {
+          "step": "Click the unique, time-sensitive password recovery link provided in the email.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": ""
+    }
+  ]
+}

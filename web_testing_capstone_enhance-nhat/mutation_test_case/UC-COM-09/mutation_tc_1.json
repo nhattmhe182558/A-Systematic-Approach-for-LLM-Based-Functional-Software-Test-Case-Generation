@@ -1,0 +1,35 @@
+{
+  "test_case_id": "MTC-034",
+  "path_number": "UC-COM-09-NF-5-Teacher",
+  "use_case_id": "UC-COM-09",
+  "navigation_sequence": [
+    "2.1.1.3 SC-005: Course Details Page",
+    "2.1.1.4 SC-006: Video Session Screen"
+  ],
+  "current_screen": "2.1.1.4 SC-006: Video Session Screen",
+  "path_step": "Teacher exits the video session",
+  "test_scenario": "Verify that a Teacher can successfully exit a live video session.",
+  "test_case_title": "Verify Teacher can exit video session",
+  "pre_condition": "Teacher is logged in, enrolled in the course, and has joined an active video session with at least one student.",
+  "expected_result": "The Teacher's session terminates, the video streams are ended (if the teacher was the last participant), and the Teacher is redirected to the Landing Page after logout.",
+  "post_condition": "Teacher is logged out and the video session has ended.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Teacher clicks the 'Exit' button to leave the session.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Teacher performs a logout.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [],
+  "uncovered_conditions": [
+    "Normal Flow: Common Action 5 (Teacher leaves session)",
+    "Postcondition: User has participated in the video session and exits the session (Teacher specific)",
+    "Alternative Flow: AF2: Teacher Leaves Session (Teacher leaving and terminating streams)"
+  ]
+}

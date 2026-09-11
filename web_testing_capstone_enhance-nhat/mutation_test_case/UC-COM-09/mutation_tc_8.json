@@ -1,0 +1,48 @@
+{
+  "test_case_id": "MTC-041",
+  "path_number": "UC-COM-09-E-1-ConnectionLost",
+  "use_case_id": "UC-COM-09",
+  "navigation_sequence": [
+    "2.1.1.3 SC-005: Course Details Page",
+    "2.1.1.4 SC-006: Video Session Screen"
+  ],
+  "current_screen": "2.1.1.4 SC-006: Video Session Screen",
+  "path_step": "Simulate connection loss during video session",
+  "test_scenario": "Verify the system's behavior when a user's network connection is lost during a live video session.",
+  "test_case_title": "Verify connection lost handling",
+  "pre_condition": "A user (Teacher or Student) is logged in, enrolled in the course, and has joined an active video session with active video and chat services.",
+  "expected_result": "The system attempts to reconnect to the services. If reconnection fails, the user is notified and prompted to rejoin the session.",
+  "post_condition": "User is notified of connection loss and can attempt to rejoin the session.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Simulate a network disconnection for the user's device.",
+      "screen": "System",
+      "step_type": "test_action"
+    },
+    {
+      "step": "User observes the system's attempt to reconnect to the video and chat services.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    },
+    {
+      "step": "User observes a notification message indicating connection loss and potential need to rejoin the session (if reconnection fails).",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Restore network connection.",
+      "screen": "System",
+      "step_type": "test_action"
+    },
+    {
+      "step": "User attempts to rejoin the session (if prompted).",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [],
+  "uncovered_conditions": [
+    "Exception: E1: Connection Lost (System attempts to reconnect, user notified if fails, user may need to rejoin)"
+  ]
+}

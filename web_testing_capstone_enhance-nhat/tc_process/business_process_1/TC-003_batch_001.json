@@ -1,0 +1,149 @@
+{
+  "summary": {
+    "total_cases_in_file": 3,
+    "generated_cases": 3,
+    "progress": "3 / 3",
+    "last_updated": "2025-10-23 18:45:27"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-025",
+      "path_number": "3",
+      "use_case_id": "UC-COM-04",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.1.3 SC-005: Course Details Page"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "Edit course details",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 1: Teacher Initializes and Sets Up the Course",
+      "test_case_title": "Teacher Edits Course Information Successfully",
+      "pre_condition": "A Teacher with a pre-provisioned account is logged into the FullTeaching platform. A course titled 'Introduction to Software Engineering' has been created and the teacher is currently on the 'Course Details Page' for this course, with the 'Info' tab selected.",
+      "expected_result": "The course information is updated successfully and the Teacher is notified. The updated course information is displayed.",
+      "post_condition": "The course 'Introduction to Software Engineering' has its information updated in the database and the Teacher remains on the course details page, with the updated information displayed.",
+      "expected_outcome": "True",
+      "test_steps": [
+        {
+          "step": "Navigate to the Course Details Page for 'Introduction to Software Engineering'.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "navigation"
+        },
+        {
+          "step": "Click the 'Edit' button on the course information tab to enter editing mode.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter 'This is the updated course information for Software Engineering.' into the 'Course Information' text area.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Save' button to submit the changes.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Course Information",
+          "field_value": "This is the updated course information for Software Engineering."
+        }
+      ],
+      "groups_involved": "View Course Information, Edit Course Information"
+    },
+    {
+      "test_case_id": "TC-027",
+      "path_number": "3",
+      "use_case_id": "UC-COM-04",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.1.3 SC-005: Course Details Page"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "A Teacher edits the course information by clicking the 'Edit' button on the course information tab, modifying the course information, and clicking 'Save'.",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 1: Teacher Initializes and Sets Up the Course",
+      "test_case_title": "Edit Course Information with Whitespace Only Content",
+      "pre_condition": "A Teacher is logged into the system and has created a course titled \"Introduction to Software Engineering\". The teacher is currently on the Course Details Page for \"Introduction to Software Engineering\".",
+      "expected_result": "If course information editing fails, the changes are not saved. The Teacher is notified of the error (e.g., \"Title cannot be empty.\") and remains on the new course page. The system displays an error message on the course page, and the Teacher remains on the course page.",
+      "post_condition": "The course information for \"Introduction to Software Engineering\" remains unchanged. The Teacher is still on the course details page.",
+      "expected_outcome": "False",
+      "test_steps": [
+        {
+          "step": "Click the course 'Introduction to Software Engineering' from the Course List to navigate to the Course Details Page.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "navigation"
+        },
+        {
+          "step": "Click the 'Edit' button on the course information tab.",
+          "screen": "2.1.1.3 SC-005: Course Details Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter '   ' into the 'Course Information' text area.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Save' button.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Edit Course Information_Course Information",
+          "field_value": "   "
+        }
+      ],
+      "groups_involved": "View Course Information, Edit Course Information"
+    },
+    {
+      "test_case_id": "TC-026",
+      "path_number": "3",
+      "use_case_id": "UC-COM-04",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.1.3 SC-005: Course Details Page",
+        "2.1.1.3 SC-005: Course Details Page"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "A Teacher edits the course information by clicking the 'Edit' button on the course information tab, modifying the course information, and clicking 'Save'.",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 1: Teacher Initializes and Sets Up the Course",
+      "test_case_title": "Teacher edits course information with null Course Information",
+      "pre_condition": "A Teacher with the email 'GiangGiangteacher@gmail.com' and password 'ValidPassword123!Giangteacher' is logged into the system. A course titled 'Introduction to Software Engineering' exists and the Teacher is on its Course Details Page.",
+      "expected_result": "If course information editing fails, the changes are not saved. The Teacher is notified of the error and the changes are not saved.",
+      "post_condition": "The course information for 'Introduction to Software Engineering' remains unchanged. The Teacher is still on the Course Details Page.",
+      "expected_outcome": "False",
+      "test_steps": [
+        {
+          "step": "Click on the course titled 'Introduction to Software Engineering' from the course list to navigate to its Course Details Page.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "navigation"
+        },
+        {
+          "step": "Click the 'Edit' button on the course information tab.",
+          "screen": "2.1.1.3 SC-005: Course Details Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter 'null' into the 'Course Information' text area.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Save' button to submit the changes.",
+          "screen": "2.1.1.5.1 Info Tab",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Edit Course Information_Course Information",
+          "field_value": "null"
+        }
+      ],
+      "groups_involved": "View Course Information, Edit Course Information"
+    }
+  ]
+}

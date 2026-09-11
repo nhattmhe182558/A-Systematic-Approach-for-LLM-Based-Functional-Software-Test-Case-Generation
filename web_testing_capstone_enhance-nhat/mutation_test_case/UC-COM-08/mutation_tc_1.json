@@ -1,0 +1,73 @@
+{
+  "test_case_id": "MTC-014",
+  "path_number": "UC-COM-08-NF-03-A",
+  "use_case_id": "UC-COM-08",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Course Details Page (Files Tab)"
+  ],
+  "current_screen": "2.1.1.5.4 Files Tab",
+  "path_step": "Teacher edits an existing file",
+  "test_scenario": "Verify that a teacher can successfully edit the details of an existing file.",
+  "test_case_title": "TC_UC-COM-08_NF_EditExistingFile_Success",
+  "pre_condition": "Teacher is logged in, has access to a course with at least one existing file, and is on the 'Files' tab of the Course Details page.",
+  "expected_result": "The file information is updated, and the system displays the updated file structure.",
+  "post_condition": "The file's details are updated in the system.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Navigate to the 'Files' tab on the Course Details page.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'Edit' button next to an existing file.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System displays a form with existing file data.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Modify the file's name or other editable attributes.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Save' button.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System validates the entered data.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "path_action"
+    },
+    {
+      "step": "System updates the file.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "path_action"
+    },
+    {
+      "step": "System displays the updated file structure.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Existing File Name",
+      "field_value": "Lecture_Notes.pdf"
+    },
+    {
+      "field_name": "New File Name",
+      "field_value": "Updated_Lecture_Notes_2023.pdf"
+    }
+  ],
+  "uncovered_conditions": [
+    "Editing existing files functionality"
+  ]
+}

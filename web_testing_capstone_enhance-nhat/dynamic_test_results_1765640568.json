@@ -1,0 +1,121 @@
+{
+  "test_config": {
+    "website_url": "https://localhost:5000/#/",
+    "timestamp": "2025-12-13T22:42:48.390189",
+    "browser": "Chrome",
+    "test_mode": "Dynamic Generation"
+  },
+  "summary": {
+    "total": 5,
+    "success": 0,
+    "failed": 5,
+    "generated_tests": 0
+  },
+  "results": [
+    {
+      "id": "TC_1765640548_3802",
+      "functionality": "Verify SignUp Link Navigation",
+      "description": "Verify that clicking the 'SIGN UP' link navigates the user to the registration page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 0 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "No Actions",
+          "status": "failed",
+          "details": "Strategy has no executable actions"
+        }
+      ],
+      "error": "No actions in strategy"
+    },
+    {
+      "id": "TC_1765640551_5157",
+      "functionality": "Verify Login Link Navigation",
+      "description": "Verify that clicking the 'LOG IN' link navigates the user to the login page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 0 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "No Actions",
+          "status": "failed",
+          "details": "Strategy has no executable actions"
+        }
+      ],
+      "error": "No actions in strategy"
+    },
+    {
+      "id": "TC_1765640555_4891",
+      "functionality": "Verify Logo Link Navigation",
+      "description": "Verify that clicking the logo navigates the user to the home page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 0 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "No Actions",
+          "status": "failed",
+          "details": "Strategy has no executable actions"
+        }
+      ],
+      "error": "No actions in strategy"
+    },
+    {
+      "id": "TC_1765640557_3822",
+      "functionality": "Verify GitHub Repository Link",
+      "description": "Verify the GitHub repository link navigates to the correct URL.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 0 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "No Actions",
+          "status": "failed",
+          "details": "Strategy has no executable actions"
+        }
+      ],
+      "error": "No actions in strategy"
+    },
+    {
+      "id": "TC_1765640563_2656",
+      "functionality": "Verify LinkedIn Link",
+      "description": "Verify the LinkedIn link navigates to the correct URL.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 0 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "No Actions",
+          "status": "failed",
+          "details": "Strategy has no executable actions"
+        }
+      ],
+      "error": "No actions in strategy"
+    }
+  ]
+}

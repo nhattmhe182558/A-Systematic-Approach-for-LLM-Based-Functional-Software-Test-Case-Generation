@@ -1,0 +1,63 @@
+{
+  "test_case_id": "MTC-009",
+  "path_number": "",
+  "use_case_id": "UC-COM-04",
+  "navigation_sequence": [
+    "2.1.1.2 SC-004: Dashboard Page",
+    "2.1.1.3 SC-005: Course Details Page",
+    "2.1.1.2.2 Modify Course Modal (from Dashboard)"
+  ],
+  "current_screen": "2.1.1.2.2 Modify Course Modal (from Dashboard)",
+  "path_step": "Teacher attempts to save course information while the system service is unavailable.",
+  "test_scenario": "Verify that the system gracefully handles service unavailability during course information update and notifies the teacher.",
+  "test_case_title": "Edit Course - System Unavailable During Save",
+  "pre_condition": "Teacher is logged in and on the Course Details page. The 'Modify Course' modal is open for an existing course. The course editing service or database is simulated to be unavailable.",
+  "expected_result": "System logs the critical error, displays a generic error message (e.g., \"Course editing service is temporarily unavailable. Please try again later.\"), and the Teacher remains on the 'Modify Course' modal.",
+  "post_condition": "Course information is not updated. Teacher can retry or cancel once the service is available.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Navigate to the Dashboard Page.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click on an existing course to go to the Course Details Page.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'Edit' button on the course information tab to open the 'Modify Course' modal.",
+      "screen": "2.1.1.3 SC-005: Course Details Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Modify the course information with valid data (e.g., change title, upload new image).",
+      "screen": "2.1.1.2.2 Modify Course Modal (from Dashboard)",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Simulate unavailability of the course editing service or database.",
+      "screen": "Backend Service",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Click the 'Send Button' (Save) to submit the changes.",
+      "screen": "2.1.1.2.2 Modify Course Modal (from Dashboard)",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Course Name",
+      "field_value": "Updated Course Title Example"
+    },
+    {
+      "field_name": "Course Image",
+      "field_value": "updated_image.jpg"
+    }
+  ],
+  "uncovered_conditions": [
+    "E1: System Unavailable (Course editing service or database unavailable)"
+  ]
+}

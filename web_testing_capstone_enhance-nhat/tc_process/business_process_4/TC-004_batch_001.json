@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:54:49"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-149",
+      "path_number": "4",
+      "use_case_id": "UC-COM-05",
+      "navigation_sequence": [
+        "2.1.1.3 SC-005: Course Details Page",
+        "2.1.1.5.5 Add New Attenders Modal (from Students Tab)"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "Enroll multiple students",
+      "test_scenario": "BUSINESS FLOW 4: BULK STUDENT MANAGEMENT AND REMOVAL - Phase 2: Test Multi-Email Enrollment",
+      "test_case_title": "Enroll Multiple Students with Valid Emails (Not Enrolled)",
+      "pre_condition": "A teacher 'GiangGiangteacher@gmail.com' is logged into the system and has navigated to the 'Students' tab of the 'Introduction to Software Engineering' course details page. The 'Add New Attenders Modal' is open. The 'Multiple' tab is selected within the modal.",
+      "expected_result": "The system successfully enrolls the students with the provided valid emails ('student_valid_1@example.com', 'student_valid_2@example.com') into the course. The student list for the course is updated to display the newly enrolled students. The system should report a summary of successful enrollments. The outcome is successful (True).",
+      "post_condition": "The students from the provided email list are successfully enrolled in the course. The 'Add New Attenders Modal' is closed, and the updated student list is displayed on the 'Course Details Page - Students Tab'.",
+      "expected_outcome": "True",
+      "test_steps": [
+        {
+          "step": "Click the 'Add Student Button' to open the 'Add New Attenders Modal'.",
+          "screen": "2.1.1.3 SC-005: Course Details Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Select the 'Multiple' tab within the 'Add New Attenders Modal'.",
+          "screen": "2.1.1.5.5 Add New Attenders Modal (from Students Tab)",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Paste 'student_valid_1@example.com, student_valid_2@example.com' into the 'Emails Text Area' field.",
+          "screen": "2.1.1.5.5 Add New Attenders Modal (from Students Tab)",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Send Button'.",
+          "screen": "2.1.1.5.5 Add New Attenders Modal (from Students Tab)",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Add Multiple Students_Emails Text Area",
+          "field_value": "student_valid_1@example.com, student_valid_2@example.com"
+        }
+      ],
+      "groups_involved": "Add Students - Tabs, Add Multiple Students, Add Students From File"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:55:41"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-155",
+      "path_number": "3",
+      "use_case_id": "UC-COM-08",
+      "navigation_sequence": [
+        "2.1.1.3 SC-005: Course Details Page"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "Access files tab",
+      "test_scenario": "BUSINESS FLOW 5: COURSE STRUCTURE MANAGEMENT (DELETION & ORGANIZATION) - Phase 2: Manage and Delete Files",
+      "test_case_title": "Access Files Tab to Manage Course Files",
+      "pre_condition": "A teacher with a pre-provisioned account is logged into the FullTeaching platform and has navigated to the Course Details Page for an existing course. The course contains at least one session and one file. The system displays the Course Details Page with the 'Info' tab active.",
+      "expected_result": "The 'Files' tab is successfully accessed. The system displays the file management interface, including the file tree with existing files and file groups, and options for adding new files, file groups, or managing existing ones. The course information, schedule, and uploaded materials are visible.",
+      "post_condition": "The teacher is on the 'Files' tab of the Course Details Page, ready to manage files.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Click the 'Files' tab to access the file management interface.",
+          "screen": "2.1.1.3 SC-005: Course Details Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": ""
+    }
+  ]
+}

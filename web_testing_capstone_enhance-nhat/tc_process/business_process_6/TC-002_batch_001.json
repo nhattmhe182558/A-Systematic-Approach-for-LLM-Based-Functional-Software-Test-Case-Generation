@@ -1,0 +1,60 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:56:35"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-162",
+      "path_number": "2",
+      "use_case_id": "UC-COM-03",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.1.3 SC-005: Course Details Page"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "Create temporary course",
+      "test_scenario": "BUSINESS FLOW 6: COURSE LIFECYCLE (COURSE DELETION) - Phase 1: Preparation",
+      "test_case_title": "Create Temporary Course for Deletion",
+      "pre_condition": "A Teacher with the email 'GiangGiangteacher@gmail.com' and password 'NewSecurePass123!' is logged into the system and is on the Dashboard Page.",
+      "expected_result": "A new course named 'Temporary Course for Deletion' is created and the Teacher is redirected to the course dashboard, where the new course is visible in the list. The system displays a success message confirming the course creation.",
+      "post_condition": "A new course named 'Temporary Course for Deletion' exists in the system and the Teacher is on the Course Details Page for this course.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Click the 'Add New Course' button to open the 'New Course' modal.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter 'Temporary Course for Deletion' into the 'Course Name' field.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Upload 'temp_course_image.jpg' into the 'Course Image' file input field.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Send' button to create the new course.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Course Name",
+          "field_value": "Temporary Course for Deletion"
+        },
+        {
+          "field_name": "Course Image",
+          "field_value": "temp_course_image.jpg"
+        }
+      ],
+      "groups_involved": ""
+    }
+  ]
+}

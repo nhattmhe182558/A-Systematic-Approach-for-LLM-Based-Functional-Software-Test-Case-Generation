@@ -1,4 +1,69 @@
-env/
-reference code
-reference papers
+# ============================================================================
+# Secrets — NEVER commit
+# ============================================================================
+.env
+**/.env
+*.key
+*_secret*
 
+# ============================================================================
+# Python
+# ============================================================================
+env/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# ============================================================================
+# Reference material (large, external, not ours)
+# ============================================================================
+reference code/
+reference papers/
+Final_Thesis_IntelliTest.pdf
+_thesis_text.txt
+
+# ============================================================================
+# Large generated run artifacts (regenerable; kept OUT of git to stay lean)
+#   We KEEP: logs, token summaries, figures, reports, CSV/XLSX, the paper.
+#   We IGNORE: bulky per-test-case JSON snapshots, screenshots, raw mega-logs.
+# ============================================================================
+
+# IntelliTest generation outputs (regenerable via the pipeline)
+intellitest/output/
+
+# Baseline run outputs (regenerable)
+baseline_1/output/
+baseline_2/output/
+baseline_3/output/
+
+# Track C per-model artifact snapshots (large; summaries/logs are kept)
+research_project/track_C_intellitest_run/runs/
+research_project/track_C_intellitest_run/input_4lv/*.pdf
+
+# Track D: the authors' execution bundle is huge (screenshots, mega-logs).
+# Keep the REPORT; ignore the raw bundle.
+web_testing_capstone_enhance-nhat/screenshots/
+web_testing_capstone_enhance-nhat/*.png
+web_testing_capstone_enhance-nhat/mutation_log.json
+web_testing_capstone_enhance-nhat/full_log.json
+web_testing_capstone_enhance-nhat/generated_testcase_action_*/
+web_testing_capstone_enhance-nhat/generated_mutation_testcase_action/
+web_testing_capstone_enhance-nhat/extract_success_llm/
+web_testing_capstone_enhance-nhat/**/__pycache__/
+
+# Cloned SUT (re-clonable from GitHub; do not vendor)
+research_project/track_D_execution_teaa/full-teaching/
+
+# ============================================================================
+# OS / editor
+# ============================================================================
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/

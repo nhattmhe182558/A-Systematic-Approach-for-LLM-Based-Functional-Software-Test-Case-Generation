@@ -1,0 +1,43 @@
+{
+  "test_case_id": "MTC-036",
+  "path_number": "UC-COM-09-NF-3-ViewParticipants",
+  "use_case_id": "UC-COM-09",
+  "navigation_sequence": [
+    "2.1.1.3 SC-005: Course Details Page",
+    "2.1.1.4 SC-006: Video Session Screen"
+  ],
+  "current_screen": "2.1.1.4 SC-006: Video Session Screen",
+  "path_step": "User views the list of connected participants",
+  "test_scenario": "Verify that a user (Teacher or Student) can view the list of all connected participants in a live video session.",
+  "test_case_title": "Verify user can view connected participants list",
+  "pre_condition": "Teacher and at least one Student are logged in, enrolled in the course, and have joined an active video session.",
+  "expected_result": "The side menu displays an accurate list of all connected participants for both Teacher and Student.",
+  "post_condition": "The user has successfully viewed the list of participants.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Teacher opens the side menu.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Teacher verifies the list of connected users, including the student.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Student opens the side menu.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Student verifies the list of connected users, including the teacher.",
+      "screen": "2.1.1.4 SC-006: Video Session Screen",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [],
+  "uncovered_conditions": [
+    "Normal Flow: Common Action 3 (User can view the list of connected participants)"
+  ]
+}

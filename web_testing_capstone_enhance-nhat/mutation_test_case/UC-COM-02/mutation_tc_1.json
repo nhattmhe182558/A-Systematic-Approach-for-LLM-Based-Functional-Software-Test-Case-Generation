@@ -1,0 +1,85 @@
+{
+  "test_case_id": "MTC-021",
+  "path_number": "E1",
+  "use_case_id": "UC-COM-02",
+  "navigation_sequence": [
+    "2.1.1.1 SC-001: Landing Page",
+    "2.1.1.1.2 Registration Modal"
+  ],
+  "current_screen": "2.1.1.1.2 Registration Modal",
+  "path_step": "System displays a generic error message when registration service is unavailable.",
+  "test_scenario": "Verify system behavior when the registration service or database is unavailable during user registration.",
+  "test_case_title": "User Registration - System Unavailable (E1)",
+  "pre_condition": "The system is online, but the registration service or database is simulated to be unavailable when the user attempts to register. An anonymous user is on the Landing Page.",
+  "expected_result": "The system logs a critical error and displays a generic error message (e.g., \"Registration service is temporarily unavailable. Please try again later.\"). The user remains on the registration modal.",
+  "post_condition": "A critical error is logged in the system. The user is notified of the system unavailability. No new user account is created.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Navigate to the Landing Page.",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Open the registration modal via the 'Sign Up' link.",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Enter valid data for username, email, password, and confirm password.",
+      "screen": "2.1.1.1.2 Registration Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Complete reCAPTCHA validation.",
+      "screen": "2.1.1.1.2 Registration Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Simulate registration service or database unavailability at step 5 of the normal flow (before account creation).",
+      "screen": "System",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Click the 'Sign Up' button.",
+      "screen": "2.1.1.1.2 Registration Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the system logs a critical error.",
+      "screen": "System logs",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that a generic error message (e.g., \"Registration service is temporarily unavailable. Please try again later.\") is displayed on the registration modal.",
+      "screen": "2.1.1.1.2 Registration Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the user remains on the registration modal.",
+      "screen": "2.1.1.1.2 Registration Modal",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "username",
+      "field_value": "system_unavailable_user"
+    },
+    {
+      "field_name": "email",
+      "field_value": "system.unavailable@example.com"
+    },
+    {
+      "field_name": "password",
+      "field_value": "StrongPass123"
+    },
+    {
+      "field_name": "confirm_password",
+      "field_value": "StrongPass123"
+    }
+  ],
+  "uncovered_conditions": [
+    "E1: System Unavailable: If the registration service or database is unavailable at step 5 (Normal Flow), the system logs a critical error and displays a generic error message, and the user remains on the registration modal."
+  ]
+}

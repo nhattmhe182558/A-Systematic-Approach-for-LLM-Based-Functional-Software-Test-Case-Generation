@@ -1,0 +1,41 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:53:10"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-135",
+      "path_number": "BP2-1",
+      "use_case_id": "FR-003",
+      "navigation_sequence": [
+        "2.1.1.1 SC-001: Landing Page",
+        "Login Modal"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Initiate password reset",
+      "test_scenario": "BUSINESS FLOW 2: USER ACCOUNT RECOVERY SCENARIO",
+      "test_case_title": "Initiate Password Reset from Login Modal",
+      "pre_condition": "The system is online and accessible. A user (Teacher or Student) is on the 'Landing Page' and the 'Login Modal' is open.",
+      "expected_result": "The system displays a form requesting the user to enter their registered email address for password recovery.",
+      "post_condition": "The password reset email request form is displayed.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Click the 'Login' button on the 'Landing Page' to open the Login Modal.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "navigation"
+        },
+        {
+          "step": "Click the 'Forgot Password?' link within the Login Modal.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": ""
+    }
+  ]
+}

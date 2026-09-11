@@ -1,0 +1,1237 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{longtable,booktabs,array}
+\newcounter{none} % for unnumbered tables
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{A Systematic Approach for LLM-Based Functional Software Test
+Case Generation and Autonomous
+Execution}\label{a-systematic-approach-for-llm-based-functional-software-test-case-generation-and-autonomous-execution}
+
+\textbf{A reproduction-and-extension study.} Formatted after the
+IntelliTest capstone thesis (\emph{A Systematic Approach for LLM-Based
+Functional Software Test Case Generation}) and the prior published paper
+(\emph{A Business Process-Centric Approach for LLM-Driven Functional
+Test Generation}).
+
+\begin{quote}
+\textbf{Scope and honesty statement.} The \textbf{generation} pipeline
+(§III-A) is \textbf{prior published work} and is reproduced here, not
+claimed as novel. The contributions of \emph{this} document are: (1) a
+faithful \textbf{reproduction on a new multi-model backend} (BytePlus:
+\texttt{deepseek-v4-flash}, \texttt{deepseek-v4-pro},
+\texttt{dola-seed-2-1-turbo}) with complete per-call token/cost/latency
+logging; (2) an \textbf{end-to-end integration} of generation with the
+Test Execution and Adaptation Agent (TEAA) against a live,
+locally-deployed system under test (FullTeaching); and (3) a
+\textbf{transparent economic and reliability analysis} that discloses,
+rather than hides, discrepancies between metrics computed over different
+test populations. Every quantitative claim traces to a logged artifact
+under \texttt{research\_project/}.
+\end{quote}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Definitions and Acronyms}\label{definitions-and-acronyms}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+Acronym & Definition \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+API & Application Programming Interface \\
+BFS & Breadth-First Search \\
+BVA & Boundary Value Analysis \\
+BVC & Boundary Value Coverage \\
+BP & Business Process \\
+CoT & Chain-of-Thought \\
+DOM & Document Object Model \\
+E2E & End-to-End \\
+EP & Equivalence Partitioning \\
+LLM & Large Language Model \\
+LTM & Long-Term Memory \\
+SRS & Software Requirements Specification \\
+STC & State Transition Coverage \\
+STM & Short-Term Memory \\
+SUT & System Under Test \\
+TEAA & Test Execution and Adaptation Agent \\
+UAT & User Acceptance Testing \\
+VBER & Verified BVA Execution Rate \\
+VLM & Vision-Language Model \\
+\end{longtable}
+}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Abstract}\label{abstract}
+
+Validating end-to-end business processes in software engineering remains
+a critical bottleneck because of the \emph{semantic gap} between
+ambiguous textual requirements and the precision required for executable
+test scenarios. Prior published work --- the business-process-centric
+IntelliTest \textbf{generation} pipeline --- demonstrated that combining
+the semantic reasoning of Large Language Models (LLMs) with
+deterministic Specification-Based Testing (Equivalence Partitioning,
+Boundary Value Analysis, and Pairwise Testing), together with a
+graph-based navigational model, produces mathematically complete,
+high-coverage functional test suites while mitigating the ``context
+amnesia'' of purely generative models. That work stops at test
+\emph{generation}.
+
+This paper reproduces the generation pipeline on a new,
+provider-agnostic multi-model backend (BytePlus, OpenAI-compatible) and
+instruments it so that \textbf{every} model call records its prompt,
+response, prompt and completion token counts, monetary cost, and
+latency. We then integrate the generation output with the \textbf{Test
+Execution and Adaptation Agent (TEAA)}, an engine that translates the
+structured, ISO/IEC/IEEE 29119-3-style test specifications into
+resilient interactions on a live web application. We deploy the system
+under test (FullTeaching, an Angular + Spring + OpenVidu
+learning-management platform) locally via Docker and confirm the full
+generation→execution loop.
+
+Empirically, a full generation run over the 31-page FullTeaching SRS
+consumes \textbf{2,450,312 tokens across 69 model calls
+(deepseek-v4-flash)} or approximately \textbf{2.6M tokens across 90
+calls (deepseek-v4-pro)}, producing 63 ISO-style test cases and 100+
+mutation test cases in roughly 50--63 minutes. The two models produce
+comparable artifact volumes, but the ``pro'' model costs approximately
+\textbf{3.5× more} per suite under current (placeholder) pricing. On the
+execution side, we verify from the authors' artifacts a \textbf{42.2\%
+all-flows success rate} and an \textbf{81.3\% valid-action rate} over
+166 executed test cases and 1,756 browser actions. We explicitly
+disclose that this all-flows figure differs from the thesis's headline
+89.2\% normal-flow figure because the two are computed over different
+populations, and that the observed exception-flow success (5.9\%)
+contradicts the thesis's ``\textgreater80\%'' exception claim --- we
+report both and treat exception handling as a documented limitation
+rather than a strength.
+
+\textbf{Keywords:} Large Language Models, software testing, automated
+test generation, agentic execution, functional testing, boundary value
+analysis, pairwise testing.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{I. Introduction}\label{i.-introduction}
+
+\subsubsection{I-A. The system-testing
+bottleneck}\label{i-a.-the-system-testing-bottleneck}
+
+The Software Development Lifecycle treats testing not as a final phase
+but as a parallel assurance process. Within it, \textbf{System Testing}
+is the definitive quality gate: it verifies that software complies with
+the business requirements captured in the Software Requirements
+Specification (SRS). Achieving high-fidelity assurance in this phase is
+cognitively expensive. Testers must (1) decompose the documentation into
+discrete components --- functional logic, UI designs --- and map the web
+of interactions and state transitions between them; and (2)
+strategically apply formal specification-based techniques to narrow an
+effectively infinite input space into a finite, high-coverage test
+suite.
+
+This burden is twofold. The \textbf{Test Analysis and Design} phase
+demands substantial cognitive load to abstract business logic into
+executable scenarios. The \textbf{Test Implementation} phase --- whether
+by manual execution or by writing automation scripts --- consumes large
+amounts of time. The high cost of maintaining this rigor commonly
+produces a \textbf{happy-path bias}: testers prioritize valid workflows
+and neglect the edge cases where defects concentrate, in order to meet
+delivery deadlines.
+
+\subsubsection{I-B. Why naive LLM use is
+insufficient}\label{i-b.-why-naive-llm-use-is-insufficient}
+
+LLMs promise to automate this domain, but current approaches exhibit two
+architectural deficiencies that this project takes as its motivating
+premises:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  \textbf{The rigor gap (coverage reliability).} The stochastic nature
+  of LLMs leads to hallucination and precludes the systematic
+  application of formal techniques. Consider a screen with \texttt{n}
+  input parameters, each with a domain of representative values
+  \texttt{D\_i} after Equivalence Partitioning. The exhaustive test
+  space is the Cartesian product
+  \texttt{\textbar{}Ω\_data\textbar{}\ =\ Π\textbar{}D\_i\textbar{}}. A
+  registration form with \texttt{n=10} fields and 4 partitions each
+  yields \texttt{4\^{}10\ ≈\ 1,048,576} combinations. A purely
+  inferential model produces a stochastic subset \texttt{T̂\ ⊂\ Ω\_data}
+  with \texttt{\textbar{}T̂\textbar{}\ ≪\ \textbar{}Ω\_data\textbar{}},
+  heavily biased toward the happy path. Combinatorial optimization
+  (Pairwise Testing) is required to reduce this space while preserving
+  interaction coverage.
+\item
+  \textbf{Context amnesia (contextual scope).} LLMs operate as localized
+  inference engines and tend to generate tests for functions in
+  isolation, failing to synthesize the stateful, multi-step business
+  workflows that validate end-to-end logic. Formally, modeling the
+  application as a state-transition graph \texttt{G\ =\ (V,\ E)}, a
+  business process is a directed path
+  \texttt{π\ =\ ⟨s\_0\ →a\_1\ s\_1\ →a\_2\ …\ →a\_k\ s\_k⟩}, and
+  validating state \texttt{s\_k} often depends on latent variables
+  produced at earlier steps. Purely generative models lose this
+  continuity.
+\end{enumerate}
+
+A parallel deficiency appears in \textbf{execution}: autonomous agents
+often navigate without a grounded script (behaving like an ``unguided
+mouse in a maze'') and, crucially, lack a definitive \textbf{oracle} ---
+an awareness of correct behavior derived from requirements --- so they
+cannot reliably decide whether the application is functioning correctly.
+
+\subsubsection{I-C. Contributions of this
+document}\label{i-c.-contributions-of-this-document}
+
+The prior published IntelliTest generation pipeline addresses the rigor
+gap and context amnesia for the \emph{design} phase, using LLMs strictly
+for requirement comprehension while delegating completeness to
+deterministic algorithms (EP, BVA, Pairwise) and a graph-based
+navigational model. Because that work is already published, this
+document does not re-claim it. Instead, the contributions here are
+deliberately scoped to what is new:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Reproduction on a new multi-model backend with full
+  accounting.} We port the pipeline to BytePlus (an OpenAI-compatible
+  endpoint) and run it on three models, logging every call's tokens,
+  cost, and latency. This establishes that the method is not tied to a
+  single model family and yields the per-model cost profile the original
+  did not report.
+\item
+  \textbf{End-to-end generation→execution integration.} We connect the
+  generated ISO-style specifications to the TEAA execution agent and
+  confirm the loop against a \textbf{live}, locally-deployed
+  FullTeaching SUT.
+\item
+  \textbf{Transparent economics and reliability accounting.} We report
+  measured token/cost figures and, per the supervisor's explicit
+  instruction to \emph{not hide any data}, we disclose where measured
+  execution metrics diverge from previously reported headline numbers,
+  including a contradiction in the exception-flow claim.
+\end{enumerate}
+
+The remainder is organized as: §II literature review (an 82-paper PRISMA
+synthesis, with Yun Lin's WebTestPilot as the closest execution-phase
+prior art); §III methodology (generation as referenced prior work;
+execution/TEAA as the integration focus); §IV experiment; §V discussion
+including economic feasibility and threats to validity; §VI conclusion.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{II. Literature Review}\label{ii.-literature-review}
+
+\subsubsection{II-A. Review protocol
+(PRISMA)}\label{ii-a.-review-protocol-prisma}
+
+To situate this work, we conducted a PRISMA-style systematic review.
+Search strings combined four keyword groups --- \textbf{domain} \{system
+testing, functional testing, UAT, acceptance testing\} ×
+\textbf{technique} \{LLM, large language model, AI agent, autonomous,
+multi-agent\} × \textbf{target} \{web application, GUI, interface, app\}
+× \textbf{activity} \{test case generation, test execution, test
+automation\} --- augmented with adjacent subfields (unit/integration
+test generation, oracle generation, self-healing automation,
+DOM/accessibility abstraction, RAG for testing, VLM GUI testing, REST
+API testing, BDD/Gherkin, flaky-test detection, requirements
+traceability, combinatorial testing). Approximately 30 distinct queries
+were executed against arXiv, IEEE Xplore, the ACM Digital Library, and
+venue proceedings. After title/abstract screening and de-duplication by
+normalized title and arXiv identifier, \textbf{82 papers} were included.
+The machine-readable corpus (11-column schema: title, authors, year,
+venue, link, quartile, summary, problem solved, methodology, type,
+original link) is provided as \texttt{related\_articles.xlsx} across
+three sheets (Systematic Review = 82; New Research 2025--26 = 19; All
+References = 101 rows). Uncertain author/venue/quartile fields are
+explicitly marked \texttt{{[}estimated{]}}; all arXiv identifiers are
+real.
+
+\subsubsection{II-B. Taxonomy of dynamic testing
+techniques}\label{ii-b.-taxonomy-of-dynamic-testing-techniques}
+
+We frame the work within the standard taxonomy. \textbf{Structure-based
+(white-box)} techniques (statement, decision coverage) verify the
+``how'' of implementation but are insufficient for functional
+validation. \textbf{Experience-based} techniques (error guessing,
+exploratory testing) are valuable but subjective and hard to automate
+reproducibly. The focus of this project is \textbf{Specification-Based
+Testing (black-box)}, which derives tests strictly from external
+documentation (SRS, use cases, user stories). Within it:
+\textbf{Equivalence Partitioning (EP)} and \textbf{Boundary Value
+Analysis (BVA)} are the input-validation pillars; \textbf{Pairwise
+Testing} mitigates combinatorial explosion by guaranteeing that every
+pair of parameter values is covered at least once; \textbf{Decision
+Table} and \textbf{State Transition} testing address logic and lifecycle
+dynamics; and \textbf{Use Case Testing} links functions into coherent
+workflows.
+
+\subsubsection{II-C. Two paradigms and the gap between
+them}\label{ii-c.-two-paradigms-and-the-gap-between-them}
+
+The 82-paper corpus separates into two paradigms:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{Top-down, document/requirement-driven GENERATION.} The prior
+  IntelliTest work sits here. Neighbours: ChatTester and ChatUniTest
+  (unit-test generation with adaptive focal context and
+  generation-validation- repair loops); high-level/requirements test
+  generation (arXiv:2503.17998, 2510.03641); UAT tooling (AutoUAT + Test
+  Flow, arXiv:2504.07244; AToMIC, arXiv:2510.18861); and multi-agent
+  generators with oracle panels (CANDOR, arXiv:2506.02943; TestAgent,
+  arXiv:2607.09101).
+\item
+  \textbf{Bottom-up, AGENTIC EXECUTION.} DroidAgent (intent-driven
+  mobile GUI testing with long/short-term memory), GPTDroid
+  (functionality-aware GUI Q\&A), WebVoyager (multimodal end-to-end web
+  agent, 59.1\% task success), and Autonomous Test Agents
+  (PinATA/SeeAct-ATA, arXiv:2504.01495).
+\end{itemize}
+
+\textbf{Three synthesis claims} carry into this paper:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{Two paradigms, one gap.} No single 2025--2026 work integrates
+  \emph{business-process-grounded generation} with an \emph{autonomous
+  UAT execution agent} that issues reliable verdicts, while
+  simultaneously addressing soundness/consistency and oracle
+  reliability. The prior published work covers generation only; this
+  document's contribution is the integration.
+\item
+  \textbf{The rigor gap is measurable.} Generation is evaluated with
+  reproducible metrics (coverage, mutation, assertion correctness).
+  Execution/agentic work relies on ad-hoc task-success rates with no
+  shared oracle benchmark --- WebVoyager reports 59.1\% task success;
+  PinATA reports \textasciitilde60\% correct verdicts (up to 94\%
+  specificity). This is precisely why our execution results (§IV-C) are
+  reported against multiple denominators.
+\item
+  \textbf{Context amnesia is shared.} ChatUniTest's token-budget focal
+  context and DroidAgent's explicit memory modules both exist to fight
+  the same amnesia the generation pipeline threads business-process
+  context through. Our TEAA carries this forward with short-term and
+  long-term (Golden Trace) memory.
+\end{enumerate}
+
+\subsubsection{II-D. Closest prior art for the execution
+phase}\label{ii-d.-closest-prior-art-for-the-execution-phase}
+
+Two works are the primary anchors for the execution half:
+
+\begin{itemize}
+\item
+  \textbf{WebTestPilot} --- Xiwen Teoh, \textbf{Yun Lin} (Associate
+  Professor \& Deputy Head of the CS Department, Shanghai Jiao Tong
+  University; formerly NUS, PAT group of Prof.~Jin Song Dong), Duc-Minh
+  Nguyen, Ruofei Ren, Wenjie Zhang, Jin Song Dong. \textbf{FSE 2026}
+  (arXiv:2602.11724). This is the single closest concurrent competitor
+  to the TEAA. It is a \textbf{neurosymbolic} LLM agent that (1) detects
+  and \textbf{symbolizes} critical GUI elements into variables, and (2)
+  translates an NL specification into a sequence of steps, each equipped
+  with \textbf{inferred pre- and post-condition oracles} over those
+  symbols, capturing \textbf{data, temporal, and causal} dependencies.
+  It directly attacks the two problems the thesis also names --- the
+  \emph{implicit oracle inference} problem (the agent must be its own
+  oracle) and the \emph{probabilistic inference} problem (distinguishing
+  a hallucination from a real bug). On a bug-injected benchmark it
+  reports \textbf{99\% task completion, 96\% precision, and 96\% recall}
+  (+70 precision / +27 recall over the best baseline).
+  \emph{Differentiation:} our TEAA grounds execution in the
+  \textbf{business-process graph inherited from the generation half},
+  and uses \textbf{Semantic DOM abstraction + Golden-Trace memory + a
+  multi-modal (DOM diff + screenshot) oracle + trace mutation}, whereas
+  WebTestPilot centers on symbolization and inferred symbolic
+  pre/post-condition oracles. WebTestPilot is the recommended primary
+  comparison for any future head-to-head execution evaluation.
+
+  Yun Lin's group produces several other directly relevant 2025--2026
+  works: \emph{Compiling Large Multi-Modal Requirement Documents into
+  Runnable Software Systems} (ISSTA 2026, arXiv:2602.13723);
+  \emph{Generating Project-Specific Test Cases with Requirement
+  Validation Intention} (ISSTA 2026); \emph{Generalizing Test Cases for
+  Comprehensive Test Scenario Coverage} (TestGeneralizer, FSE 2026,
+  arXiv:2604.21771); and design-to- action agents for GUI testing (ISSTA
+  2025).
+\item
+  \textbf{Are Autonomous Web Agents Good Testers? (PinATA / SeeAct-ATA)}
+  --- arXiv:2504.01495. Establishes that autonomous test agents can
+  execute NL test cases and return pass/fail verdicts, but at limited
+  reliability (\textasciitilde60\% correct verdict). This is the
+  empirical baseline for ``can agents judge correctness at all,'' and it
+  contextualizes our 42.2\% all-flows figure.
+\end{itemize}
+
+\subsubsection{II-E. Newly-emerged concerns (2025--2026) the paper must
+acknowledge}\label{ii-e.-newly-emerged-concerns-20252026-the-paper-must-acknowledge}
+
+The re-research track surfaced several themes that postdate the prior
+published work and shape the execution half's threats-to-validity:
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{NL-test soundness and consistency} (arXiv:2509.19136): NL
+  tests can be \emph{unsound} (false failures from ambiguity) and
+  \emph{inconsistent} (nondeterministic re-runs). This must appear as a
+  threat to validity.
+\item
+  \textbf{Self-healing via DOM/accessibility trees} (arXiv:2603.20358):
+  sub-second selector re-discovery at zero ongoing API cost, scaling to
+  300+ tests.
+\item
+  \textbf{Bounded autonomous repair} (arXiv:2605.01471):
+  \textasciitilde70\% repair convergence, mean 4.4 iterations ---
+  realistic limits on self-correction during execution.
+\item
+  \textbf{DOM pruning at scale} (Prune4Web, arXiv:2511.21398):
+  programmatic pruning of 10k--100k-token DOMs, the same bottleneck the
+  TEAA's Semantic DOM Abstraction addresses.
+\item
+  \textbf{Accessibility-tree prompt injection} (arXiv:2507.14799): a
+  genuine security threat model for DOM/ accessibility-tree-driven
+  agents.
+\item
+  \textbf{Requirement→oracle alignment on real bugs} (arXiv:2607.10277):
+  LLM-generated oracles align more with requirements than with the SUT
+  and show high variance --- central to autonomous-verdict reliability.
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{III. Methodology}\label{iii.-methodology}
+
+\subsubsection{III-A. Test Case Design Phase (PRIOR PUBLISHED WORK ---
+reproduced, not
+claimed)}\label{iii-a.-test-case-design-phase-prior-published-work-reproduced-not-claimed}
+
+The generation pipeline is the previously published IntelliTest design
+phase. It is included here in detail only to ground the execution
+integration and to document the faithful reproduction on BytePlus. It
+runs eight stages end-to-end
+(\texttt{intellitest/main.py::run\_full\_pipeline}), each funneling
+through a single provider abstraction
+(\texttt{LLMProvider.generate\_structured}) that returns a validated
+Pydantic object.
+
+\textbf{Stage 1 --- Screen extraction.} Extract the set of system
+screens \texttt{S} from the SRS → \texttt{general/screens.json}. On the
+FullTeaching SRS this yielded 4 screens (Landing, Dashboard, Course
+Details, Video Session).
+
+\textbf{Stage 2 --- Business Process Detector.} Extract ordered,
+multi-step business processes. A \textbf{grounding constraint} prevents
+hallucinated navigation: for every step \texttt{st} in every business
+process \texttt{b}, \texttt{\{cs(st),\ ns(st)\}\ ⊆\ S\_names} --- the
+current and next screen of each step must be members of the
+pre-identified screen set. On FullTeaching this produced 6 business
+processes (\texttt{business\_process\_1..6.json}).
+
+\textbf{Stage 3 --- Screen Variable Detector.} For each screen, an LLM
+function \texttt{F\_var} builds a behavioral model
+\texttt{M\_var(S\_i)\ =\ F\_var(P\_var(B(S\_i)),\ C)} (eq. 3.6), where
+\texttt{B(S\_i)} is the subset of business processes touching screen
+\texttt{S\_i} and \texttt{C} is the document context. The prompt
+introduces a \textbf{hierarchical layer structure}
+\texttt{L\_i\ =\ \{l\_0,\ l\_1,\ …,\ l\_m\}} (a base layer of
+always-visible elements; each subsequent layer gated by a trigger in the
+previous), organizes elements into \textbf{element groups} \texttt{g},
+and instructs the model to act as a Test Analyst applying BVA,
+decision-table, and state-machine reasoning. A \textbf{Strict Abstract
+Value Constraint} forces abstract data categories (e.g.,
+\texttt{"valid\_email\_format"}) rather than concrete instances. For
+each parameter \texttt{p} it yields a domain
+\texttt{TD\_p\ =\ (V\_valid,\ V\_invalid)}. Each group is linked to its
+business function:
+\texttt{∀g\ ∈\ M\_var(S\_i):\ β(g)\ ∈\ \{b.name\ \textbar{}\ b\ ∈\ B(S\_i)\}}
+(eq. 3.7).
+
+\textbf{Stage 4 --- Screen Graph Detector.} Build the directed
+navigational graph \texttt{G\_screen\ =\ (V,\ E)} with \texttt{V\ =\ S}.
+For each screen, a CoT-guided function \texttt{F\_graph} emits the
+outgoing edge subset \texttt{E\_i\ =\ F\_graph(P\_graph,\ C,\ s\_i)}
+(eq. 3.5). Each edge is a tuple
+\texttt{e\ =\ (s\_source,\ s\_target,\ a,\ el,\ K,\ k\_imp)} (action,
+element, keyword set, most-critical keyword). A thread-safe writer
+atomically unions the subsets: \texttt{E\ =\ ∪\ E\_i}.
+
+\textbf{Stage 5 --- Path Processor.} For each step \texttt{st\_k} of
+business process \texttt{b\_j}, compute the navigation path via BFS:
+\texttt{π\_k\ =\ BFS(G\_screen,\ s\_start(π\_k),\ cs(st\_k))} (eq.
+3.11), where the start screen carries continuity ---
+\texttt{s\_start(π\_k)\ =\ cs(st\_1)} if \texttt{k=1}, else
+\texttt{ns(st\_\{k-1\})} (eq. 3.10).
+
+\textbf{Stage 6 --- Pairwise Generator.} For each element group's
+collected parameter set \texttt{P\_gk} (gathered recursively across the
+hierarchical layers), apply All-Pairs:
+\texttt{Comb(g\_k)\ =\ Pairwise(TD\_p1,\ …,\ TD\_pm)} (eq. 3.8). The
+expected outcome of a combination is deterministic:
+\texttt{outcome(c)\ =\ False\ if\ c\ ∩\ V\_invalid\ ≠\ ∅\ else\ True}
+(eq. 3.9).
+
+\textbf{Stage 7 --- Test Case Generator.} For each
+\texttt{(st\_k,\ c\ ∈\ Comb(g\_k))}, synthesize one test case
+\texttt{tc\_k\ =\ F\_gen(P\_gen(st\_k,\ π\_k,\ c,\ H\_\{k-1\},\ D\_input),\ C)}
+(eq. 3.12), where \texttt{H\_\{k-1\}} is the aggregated historical
+context of prior successful test cases in the same flow --- enabling
+\textbf{stateful testing} (e.g., reusing a newly created account to log
+in) --- and \texttt{D\_input} are injected constants (e.g., admin
+credentials). Output conforms to \textbf{ISO/IEC/IEEE 29119-3:2013}. A
+\textbf{Test Case Retry} step re-attempts failed generations.
+
+\textbf{Stage 8 --- Mutation / Exception Generator.} Synthesize
+exception/negative cases by mutating tested rules:
+\texttt{tc\textquotesingle{}\_k\ =\ F\_except(P\_except(st\_k,\ r),\ C)}
+(eq. 3.13).
+
+\textbf{Reproduction defect fix.} The BytePlus (OpenAI-compatible)
+provider path originally set \textbf{no \texttt{max\_tokens}}, so the
+large business-process JSON was truncated mid-string (``EOF while
+parsing a string''), which silently zeroed every downstream stage (0
+business processes → 0 paths → 0 pairwise → 0 test cases). The fix adds
+a \texttt{max\_tokens} bound (env \texttt{DEEPSEEK\_MAX\_TOKENS},
+default 16384) and per-call usage logging. This is the only functional
+change; prompts and control flow are unchanged.
+
+\subsubsection{III-B. Test Execution Phase --- TEAA (integration focus
+of this
+work)}\label{iii-b.-test-execution-phase-teaa-integration-focus-of-this-work}
+
+The \textbf{Test Execution and Adaptation Agent} consumes the generated
+ISO-style specifications and drives a live browser via Selenium. It is
+implemented as \texttt{TestAgent} in \texttt{CustomLLMDroid/Agent.py}
+(positive/negative Golden-Path pipeline) and
+\texttt{CustomLLMDroid/Mutation\_Agent.py} (structural exception flows),
+with LLM access in \texttt{LLMCaller.py}, prompts in \texttt{Prompt.py},
+and JSON schemas in \texttt{Schemas.py}. The following table maps each
+thesis concept (§3.2, eqs 3.14--3.20) to its concrete code realization
+(verified by source inspection):
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2500}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Thesis concept
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Formula
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Code
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Realization
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\textbf{Golden-Path filter}
+\texttt{G\_k\ =\ \{tc\ :\ ExpectedOutcome\ =\ True\}} & 3.14 &
+\texttt{Agent.walkthrough()} & Pops the positive-outcome test case as
+\texttt{success\_tc} before running negatives. \\
+\textbf{Semantic DOM Abstraction} \texttt{Φ:\ H\_t\ →\ S\_t}, keeping
+visible interactive nodes & 3.15 &
+\texttt{extract\_interactable\_elements()} + \texttt{is\_visible()} &
+BeautifulSoup prune of
+\texttt{display:none/visibility:hidden/opacity:0/aria-hidden} and hidden
+ancestors (visual visibility \texttt{v(e)=1}); keep clickable/input/form
+tags and elements with \texttt{role/on*/tabindex} (\texttt{A\_ctrl});
+emit compact JSON (thesis claims \textasciitilde95\% token
+reduction). \\
+\textbf{Strategy Function} \texttt{a\_t\ =\ σ(S\_t,\ M\_STM,\ D\_input)}
+& 3.16 & \texttt{evaluate\_next\_step()} + \texttt{EVALUATE\_NEXT\_STEP}
+prompt/schema & Single-action decision loop; input = abstracted elements
+\texttt{S\_t}, short-term memory \texttt{M\_STM} (execute log),
+test-case fields, assumption + true \texttt{D\_input}; output =
+\texttt{\{action,\ selector\_type,\ selector\_value,\ input\_value,\ reasoning,\ done,\ web\_fail,\ llm\_fail\}}. \\
+\textbf{Termination} \texttt{σ(...)\ =\ "done"\ ⇒\ terminate} & 3.17 &
+\texttt{while\ not\ done:} + 600s watchdog & Watchdog resets
+driver/session to break infinite loops. \\
+\textbf{Golden Trace / LTM} \texttt{τ\_verified\ →\ M\_LTM} &
+(3.16--3.17) & \texttt{long\_term\_mem},
+\texttt{success\_happy\_path.json},
+\texttt{evaluate\_past\_success\_tc()} & On success, the error-free
+execute log is persisted; a boosting step replays matching past traces
+to bypass expensive re-inference. \\
+\textbf{Multi-modal Oracle}
+\texttt{Verdict\ =\ PASS\ iff\ ValidTech\ ∧\ Match(ΔS,\ E\_exp)} & 3.18
+& \texttt{evaluate\_test\_execution()} + \texttt{get\_html\_diff()} +
+images via \texttt{generate\_json\_with\_images()} & Captures
+before/after screenshots (base64) + unified HTML diff (≤5000 chars) +
+visible text; returns
+\texttt{\{valid\_action,\ result,\ llm\_fail,\ web\_fail,\ reasoning,\ assertion\_selector\}}
+--- a two-channel structural+visual verdict. \\
+\textbf{Trace Mutation} \texttt{τ\_neg\ =\ Ψ(τ\_verified,\ δ)} & 3.19 &
+\texttt{generate\_false\_testcase()}; structural in
+\texttt{Mutation\_Agent.py} & Preserves navigation, perturbs input data
+(invalid/empty/malformed); oracle logic reversed (expect
+error/blocking). \\
+\textbf{Deterministic Serialization}
+\texttt{S\_exec\ =\ Γ(τ\_verified,\ A)} replayed by \texttt{R\_det} &
+3.20 & \texttt{Reuseable\_Module.ReusableTestRunner}, \texttt{rerun.py}
+& LLM-free Selenium replay of saved actions + assertions, with 12
+assertion primitives; \texttt{C\_script\ ≪\ C\_LLM} --- no model call at
+replay. \\
+\end{longtable}
+}
+
+The key integration property is that \textbf{the generation half feeds
+the execution half}: the business-process-grounded, ISO-style
+specification becomes the TEAA's script, directly addressing the
+``unguided explorer'' and ``missing oracle'' deficiencies of prior
+agentic testing.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{IV. Experiment}\label{iv.-experiment}
+
+\subsubsection{IV-A. Experimental setup}\label{iv-a.-experimental-setup}
+
+\textbf{Case studies.} 1. \textbf{FullTeaching} --- an open-source
+learning-management platform (Angular front end, Spring back end,
+OpenVidu WebRTC), selected because of its rich dynamic interface and
+complex state transitions. It is the live SUT for the execution phase.
+Deployed locally via Docker Compose (three containers: the app, MySQL,
+and the OpenVidu KMS server) and confirmed reachable at
+\texttt{https://localhost:5000/} (HTTP 200; HTTPS only --- plain HTTP
+returns 400). Default accounts: \texttt{teacher@gmail.com/pass},
+\texttt{student1@gmail.com/pass}, \texttt{student2@gmail.com/pass}. Its
+SRS (\texttt{full-teaching-system-design.pdf}, 31 pages, 60,717
+characters extracted, tabulated functional requirements FR-001\ldots)
+drives generation; the pipeline detected 4 screens and 6 business
+processes. 2. \textbf{RetailOnboardPro / 4LV (limited sample).} The
+available artifact \texttt{srs\_extracted\_4lv.json} is a
+\textbf{2-use-case sample} (Submit Training Request; Approve Training
+Request), \textbf{not} the full RetailOnboardPro SRS from the original
+thesis (which has 10 use cases, 8 screens, 75 business rules). It was
+rendered to PDF (\texttt{make\_4lv\_pdf.py}) and used to characterize
+behavior on a minimal input. All 4LV results are reported explicitly as
+a limited sample.
+
+\textbf{Models (BytePlus, OpenAI-compatible,
+\texttt{https://ark.ap-southeast.bytepluses.com/api/v3}).}
+\texttt{deepseek-v4-flash-ga-260731} (flash),
+\texttt{deepseek-v4-pro-ga-260813} (pro),
+\texttt{dola-seed-2-1-turbo-260628} (dola). All three were verified to
+respond and to report usage tokens. flash and pro were run through full
+pipelines; dola was connectivity-validated but not run through a full
+pipeline (a documented limitation).
+
+\textbf{Baselines (generation).} Three faithful reimplementations,
+confirmed by a code audit to be verbatim-prompt, control-flow-accurate
+ports of their source methods: - \textbf{Baseline 1 (Augusto et al.,
+ICTSS 2024)} --- two-stage scenario→case derivation with Few-Shot + CoT
+and leave-one-out cross-validation over example test cases
+(\texttt{temperature=0.1,\ top\_p=1.0,\ max=32768}). - \textbf{Baseline
+2 (Milchevski et al., ACL 2025 Industry)} --- intermediate-artifact
+workflow: decision table → scenarios → test purposes → Generation Agent
+→ Reflection Agent (3 retries each; few-shot disabled as in the
+original). - \textbf{Baseline 3 (Bhatia et al., 2024)} ---
+conversational: familiarize the model with the full SRS, then chain
+per-use-case prompts producing a 6-column Markdown test table
+(\texttt{temperature=0.7}); chat memory preserved.
+
+Execution baselines referenced from the thesis: \textbf{AutoUAT}
+(scenario-to-code, static Cypress) and \textbf{LLMDroid} (exploratory
+coverage agent).
+
+\textbf{Logging.} Every LLM call records prompt/response,
+prompt/completion/total tokens, USD cost, and latency to JSONL. Pricing
+uses \textbf{placeholder} per-1M rates (flash 0.15/0.60, pro 0.55/2.20,
+dola 0.30/1.20 input/output) because official BytePlus rates for these
+preview model IDs are not published; \textbf{raw tokens are always
+logged, so USD is exactly recomputable} once real rates are known.
+
+\subsubsection{IV-B. Generation results (reproduction on
+BytePlus)}\label{iv-b.-generation-results-reproduction-on-byteplus}
+
+\textbf{Full-pipeline resource consumption (measured).}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.0789}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.0789}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 18\tabcolsep) * \real{0.1053}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Case study
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Model
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Calls
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Prompt tok
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Completion tok
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Total tokens
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Cost (placeholder)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Wall time
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Test cases
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Mutations
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+FullTeaching (31pg) & flash & 69 & 1,873,422 & 576,890 &
+\textbf{2,450,312} & \textasciitilde\$0.63 & \textasciitilde50 min & 63
+& 116 \\
+FullTeaching (31pg) & pro & 90 & 2,192,937 & 448,668 &
+\textasciitilde{}\textbf{2,641,605}* & \textasciitilde\$2.19* &
+\textasciitilde63 min & 63 & 104 \\
+4LV sample (2 UC) & flash & 40 & 201,417 & 227,680 & \textbf{429,097} &
+\textasciitilde\$0.17 & \textasciitilde28 min & 2 & 3 \\
+4LV sample (2 UC) & pro & 10 & 32,527 & 34,247 & \textbf{66,774} &
+\textasciitilde\$0.09 & \textasciitilde7 min & 2 & 3 \\
+\end{longtable}
+}
+
+* The pro FullTeaching total is cumulative with its 4LV run in the
+shared usage log; the FullTeaching-only increment is the dominant
+component. This is disclosed rather than silently netted out.
+
+\textbf{Per-module token distribution (FullTeaching, flash).} The
+generation cost is heavily concentrated in test-case synthesis:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}lrr@{}}
+\toprule\noalign{}
+Module & Tokens & Share \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+test\_case\_generator & 1,640,600 & \textasciitilde67\% \\
+mutation\_test\_case\_generator & 455,782 & \textasciitilde19\% \\
+screen\_variable\_detector & 166,693 & \textasciitilde7\% \\
+screen\_graph\_detector & 120,251 & \textasciitilde5\% \\
+business\_process\_detector & 45,579 & \textasciitilde2\% \\
+screen\_extraction & 21,407 & \textasciitilde1\% \\
+\end{longtable}
+}
+
+(Figure F3 visualizes this distribution.)
+
+\textbf{Cross-model finding.} flash and pro produce \textbf{comparable
+artifact volumes} (both 63 ISO-style test cases; similar mutation
+counts), but pro costs \textbf{\textasciitilde3.5× more} per suite under
+placeholder rates while issuing fewer, more concise calls (90 calls at
+\textasciitilde2.6M tokens for pro vs 69 calls at 2.45M for flash ---
+pro front-loads more tokens per call). For a cost-sensitive, high-volume
+regression-suite generation task, flash is the economically preferable
+model at comparable output volume; pro's value would need to be
+justified by a downstream quality delta not measured here.
+
+\textbf{Baseline re-runs on BytePlus (flash), confirming Option-A wiring
+works with zero code change:}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1875}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1875}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1875}}
+  >{\raggedleft\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.2500}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 8\tabcolsep) * \real{0.1875}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Baseline
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Method
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Output
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Cost (placeholder)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Tokens (in/out)
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+1 (Augusto) & scenario→case (RQ1→RQ2) & 26 test-case files &
+\textasciitilde\$1.09 & 140,081 / 414,787 \\
+2 (Milchevski) & decision table + gen/reflect specs & decision table +
+refined specs & \textasciitilde\$0.28 & 20,943 / 110,129 \\
+3 (Bhatia) & conversational per-use-case & 33 test cases &
+\textasciitilde\$0.018 & \textasciitilde3,900 / \textasciitilde6,900 \\
+\end{longtable}
+}
+
+Baseline 1 required the intended manual \textbf{RQ1→RQ2 bridge} (the
+model emitted scenarios in a \texttt{**SCENARIO\ N:**} format; copying
+the RQ1 output into \texttt{inputTestScenarios.txt} allowed RQ2 title
+extraction to succeed).
+
+\subsubsection{IV-C. Execution results (TEAA on live
+FullTeaching)}\label{iv-c.-execution-results-teaa-on-live-fullteaching}
+
+Verified programmatically from
+\texttt{my\_method\_evaluation\_summary.json}; all aggregates reconcile
+exactly.
+
+\textbf{Top-line (all aggregates internally consistent):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Metric
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reconciliation
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Total test cases & \textbf{166} & 70 passed + 96 failed = 166 ✓ \\
+Success rate & \textbf{42.17\%} & 70/166 ✓ \\
+Valid-action rate & \textbf{81.33\%} & 135 valid + 31 invalid = 166;
+135/166 ✓ \\
+LLM failures & 35 & 35 + 61 web = 96 failed ✓ \\
+Web failures & 61 & --- \\
+Total browser actions & \textbf{1,756} & done 528 + input 553 + click
+667 + upload 8 ✓ \\
+\end{longtable}
+}
+
+\textbf{Action-type success (step-level):}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}llr@{}}
+\toprule\noalign{}
+Action & Success / Total & Rate \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+done & 363 / 528 & 68.8\% \\
+click & 220 / 667 & 33.0\% \\
+input & 142 / 553 & \textbf{25.7\%} \\
+upload & 4 / 8 & 50.0\% \\
+\textbf{All} & \textbf{729 / 1,756} & \textbf{41.5\%} \\
+\end{longtable}
+}
+
+\texttt{input} is the weakest action, consistent with the
+failure-pattern data (269 input failures) and the frequent
+\texttt{no\ such\ element\ {[}id=email/password/...{]}} errors --- the
+agent often targets input fields by an \texttt{id} that is not present
+in the current DOM state.
+
+\textbf{Selector usage vs.~failures}
+(\texttt{my\_method\_evaluation\_failure\_patterns.json}): usage
+\texttt{id} 1496 / \texttt{text} 158 / \texttt{xpath} 78 /
+\texttt{class} 13; failures \texttt{id} 590 / \texttt{xpath} 49 /
+\texttt{text} 48 / \texttt{class} 5. Failures by step type:
+\texttt{test\_action} 402, \texttt{navigation} 99, \texttt{path\_action}
+11. Dominant runtime errors: \texttt{NoSuchElement} on hallucinated
+\texttt{id}s, \texttt{element\ not\ interactable},
+\texttt{stale\ element\ reference}, brittle deep XPath chains, and one
+hard-coded local upload path that did not exist. (Figure F5: pass/fail
+by business process --- BP1 carries 132 of 166 cases; Figure F6:
+action-type success.)
+
+\textbf{Static-script baseline evidence.} \texttt{test\_result.xlsx} /
+\texttt{test\_result\_updated.xlsx} hold \textbf{169 Cypress-style
+results} (failed 132, passed 26, skipped 11), with errors referencing
+Cypress, \texttt{loginAndNavigateToCreateCourse()}, and elements
+``obscured by the logo header.'' These are the \textbf{static-script
+(AutoUAT-style) baseline}, not the TEAA agent, and they evidence the
+thesis's ``Static Script Fallacy'' --- high failure from race conditions
+and obscured elements, motivating the self-healing agent layer.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{V. Discussion}\label{v.-discussion}
+
+\subsubsection{V-A. Honest reconciliation of execution metrics (the
+central integrity
+point)}\label{v-a.-honest-reconciliation-of-execution-metrics-the-central-integrity-point}
+
+The thesis reports higher execution figures than the raw artifact
+\texttt{my\_method\_evaluation\_summary.json}. These are \textbf{not the
+same population}, and per the instruction to \emph{not hide any data},
+we lay both out side by side:
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 4\tabcolsep) * \real{0.3333}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Figure
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Thesis claim
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Artifact (\texttt{my\_method\_evaluation\_summary.json})
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Cohort & Normal Flow only, N=166 & All 166 attempted cases (mixed) \\
+Pass / pass rate & 148 passed → \textbf{89.20\%} & 70 passed →
+\textbf{42.17\%} \\
+Valid-action rate & 153/166 → \textbf{92.17\%} & 135/166 →
+\textbf{81.33\%} \\
+LLM / web failures & 17 / 72 & 35 / 61 \\
+Verified BVA Execution Rate (VBER) & \textbf{83.1\%} (64/77 BVA rules) &
+not in this file (BVA lives in \texttt{comprehensive\_report.csv}) \\
+Boundary Value Coverage (BVC) & \textbf{92.2\%} (71/77) & not in this
+file \\
+Exception-flow success & thesis Table 4.4 Exception = \textbf{5.9\%}
+(3/51) & --- \\
+\end{longtable}
+}
+
+Four points of caution for anyone citing these numbers: 1. \textbf{The
+artifact's 166 ≠ the thesis's ``Normal Flow'' 166.} The artifact's 166
+is the \emph{full attempted set} (42.17\% pass). The thesis partitions
+results into Normal (N=166, 89.20\%) and Exception (N=51, 5.9\%). The
+two ``166''s collide numerically but represent different filtering. One
+must not present the artifact's 42.17\% as if it were the 89.20\%
+normal-flow figure, nor vice versa. 2. \textbf{92.17\% valid-action}
+(thesis) is 153/166 on the \emph{Normal Flow} cohort; the artifact's
+comparable field is 81.33\% (135/166) on the \emph{full} set. Both are
+internally consistent with their own denominators. 3. \textbf{VBER
+83.1\% and BVC 92.2\%} come from the \textbf{FullTeaching BVA benchmark
+(N=77 rules)} --- a coverage/ verified-execution axis, not the 166-case
+run. 4. \textbf{The ``\textgreater80\% exception validation'' claim is
+contradicted by the thesis's own Exception-Flow result (5.9\%).} The
+honest reading is that exception handling is a \textbf{documented
+limitation} (``Cognitive Ceiling''), not a strength. Any paper built on
+this data should present it that way.
+
+Our position: the integrated system reliably executes and verifies
+\textbf{normal, happy-path and input-validation flows} at a high rate,
+but \textbf{exception/state-driven flows remain hard} --- consistent
+with the broader literature (PinATA \textasciitilde60\% verdict
+reliability; WebVoyager 59.1\% task success). The 42.2\% all-flows
+number is best understood as a \emph{mixed-population} figure dragged
+down by the exception cohort and by \texttt{input}-action brittleness
+(25.7\% success), not as a refutation of the approach on the flows it
+targets.
+
+\subsubsection{V-B. Economic
+feasibility}\label{v-b.-economic-feasibility}
+
+Under placeholder pricing, a \textbf{full FullTeaching generation suite
+costs \textasciitilde\$0.63 (flash) to \textasciitilde\$2.19 (pro)},
+with generation cost concentrated in \texttt{test\_case\_generator}
+(\textasciitilde67\%) and \texttt{mutation\_test\_case\_generator}
+(\textasciitilde19\%). Because raw tokens are logged, exact USD is
+recomputable once official BytePlus rates are published. The economic
+argument for the integrated approach rests on \textbf{deterministic
+serialization} (eq. 3.20): the expensive LLM-driven discovery and oracle
+steps are paid \textbf{once}; verified traces are crystallized into
+LLM-free replay scripts (\texttt{ReusableTestRunner}/\texttt{rerun.py})
+whose regression cost \texttt{C\_script\ ≪\ C\_LLM} is effectively free.
+Thus the one-time generation+discovery spend amortizes across all
+subsequent regression cycles --- the key to the thesis's claimed
+\textasciitilde88\% cost reduction versus manual testing, which our
+token accounting makes independently auditable.
+
+The \textbf{model-selection} implication is concrete: at comparable
+artifact volume (63 test cases either way), flash is \textasciitilde3.5×
+cheaper than pro, so a cost-optimal deployment uses flash for bulk
+generation and reserves a stronger model only where a measured quality
+gain justifies it.
+
+\subsubsection{V-C. Threats to validity}\label{v-c.-threats-to-validity}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  \textbf{4LV is a 2-use-case sample}, not the full RetailOnboardPro SRS
+  (10 UC / 8 screens / 75 rules); its results characterize minimal-input
+  behavior only and are not a thesis reproduction of RetailOnboardPro.
+\item
+  \textbf{Placeholder pricing.} All USD figures depend on unofficial
+  per-1M rates; only token counts are ground truth.
+\item
+  \textbf{Cumulative pro token log.} The pro FullTeaching total includes
+  its 4LV run in the shared JSONL; the FullTeaching-only figure is the
+  dominant increment but is not cleanly isolated.
+\item
+  \textbf{Execution backend mismatch.} The execution artifacts were
+  produced with a Gemini backend. A faithful BytePlus execution re-run
+  requires porting \texttt{LLMCaller.py} to the OpenAI-compatible client
+  \textbf{and a vision-capable model} for the multi-modal oracle;
+  without image support the dual-channel oracle degrades to DOM-only,
+  weakening exactly the exception flows already identified as weak.
+\item
+  \textbf{dola-seed-2-1-turbo} was connectivity-validated but not run
+  through a full pipeline; the 3-model comparison is therefore 2-model
+  in practice.
+\item
+  \textbf{NL-test soundness/consistency} (arXiv:2509.19136): some
+  execution failures may be false failures from NL ambiguity, and
+  re-runs may not be deterministic --- an inherent limitation of
+  NL-driven execution.
+\end{enumerate}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{VI. Conclusion}\label{vi.-conclusion}
+
+We reproduced the previously published IntelliTest \textbf{generation}
+pipeline on a new, provider-agnostic multi-model BytePlus backend with
+complete token/cost/latency logging; we \textbf{integrated} it
+end-to-end with the TEAA \textbf{execution} agent against a live,
+locally-deployed FullTeaching system under test; and we reported a
+\textbf{transparent} economic and reliability analysis. The generation
+half is prior work and is credited as such throughout. The contributions
+of this document are the reproduction (including a real defect fix that
+was silently zeroing the pipeline on the new backend), the integration
+that closes the generation→execution loop, the first per-model cost
+profile for this method (flash ≈ \$0.63, pro ≈ \$2.19 per full
+FullTeaching suite; comparable output; pro \textasciitilde3.5×
+costlier), and an honest reliability accounting that discloses the
+42.2\%-vs-89.2\% population discrepancy and the exception-flow
+contradiction rather than reporting only the favourable figure. The
+strongest concurrent competitor for the execution phase is \textbf{Yun
+Lin's WebTestPilot (FSE 2026)}; a faithful head-to-head against it ---
+and measurable improvement of exception-flow reliability via a
+vision-capable oracle --- are the clearest next steps.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{References}\label{references}
+
+The complete machine-readable reference set (82 papers, 11-column
+schema) is in
+\texttt{research\_project/track\_A\_literature\_review/related\_articles.xlsx}
+(sheets: Systematic Review {[}82{]}, New Research 2025-26 {[}19{]}, All
+References {[}101 rows{]}). Primary anchors cited above:
+
+\begin{itemize}
+\tightlist
+\item
+  Prior work: \emph{A Business Process-Centric Approach for LLM-Driven
+  Functional Test Generation} (IEEE Access).
+\item
+  X. Teoh, \textbf{Y. Lin}, D.-M. Nguyen, R. Ren, W. Zhang, J. S. Dong.
+  \emph{WebTestPilot: Agentic End-to-End Web Testing against Natural
+  Language Specification by Inferring Oracles with Symbolized GUI
+  Elements.} FSE 2026. arXiv:2602.11724.
+\item
+  \emph{Are Autonomous Web Agents Good Testers? (PinATA / SeeAct-ATA).}
+  arXiv:2504.01495.
+\item
+  C. Augusto et al., \emph{Software System Testing assisted by LLMs: An
+  Exploratory Study.} ICTSS 2024.
+\item
+  D. Milchevski et al., \emph{Multi-Step Generation of Test
+  Specifications using LLMs for System-Level Requirements.} ACL 2025
+  (Industry).
+\item
+  S. Bhatia, T. Gandhi, D. Kumar, P. Jalote. \emph{System test case
+  design from requirements specifications: insights and challenges of
+  using ChatGPT.} 2024.
+\item
+  J. Wang et al., \emph{Software Testing with LLMs: Survey, Landscape,
+  and Vision.} IEEE TSE 2024.
+\item
+  X. Hou et al., \emph{LLMs for Software Engineering: A Systematic
+  Literature Review.} ACM TOSEM 2024.
+\item
+  H. He et al., \emph{WebVoyager: Building an End-to-End Web Agent with
+  LMMs.} ACL 2024.
+\item
+  J. Yoon, R. Feldt, S. Yoo. \emph{DroidAgent} (intent-driven mobile GUI
+  testing).
+\item
+  Z. Liu et al., \emph{GPTDroid} (functionality-aware mobile GUI
+  testing). ICSE 2024.
+\item
+  Emerging concerns: NL soundness/consistency (arXiv:2509.19136);
+  self-healing DOM (arXiv:2603.20358); autonomous repair limits
+  (arXiv:2605.01471); Prune4Web DOM pruning (arXiv:2511.21398);
+  accessibility-tree prompt injection (arXiv:2507.14799);
+  requirement→oracle on real bugs (arXiv:2607.10277).
+\item
+  Yun Lin group (additional): \emph{Compiling Large Multi-Modal
+  Requirement Documents\ldots{}} (ISSTA 2026, arXiv:2602.13723);
+  \emph{Generating Project-Specific Test Cases with Requirement
+  Validation Intention} (ISSTA 2026); \emph{Generalizing Test Cases for
+  Comprehensive Test Scenario Coverage} (FSE 2026, arXiv:2604.21771).
+\end{itemize}
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+\subsection{Appendix A --- Reproducibility
+artifacts}\label{appendix-a-reproducibility-artifacts}
+
+{\def\LTcaptype{none} % do not increment counter
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 2\tabcolsep) * \real{0.5000}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Artifact
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Path
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Generation runner + per-model token summaries &
+\texttt{research\_project/track\_C\_intellitest\_run/}
+(\texttt{run\_intellitest.py}, \texttt{summarize\_usage.py},
+\texttt{logs/usage\_*\_summary.json}) \\
+4LV PDF renderer &
+\texttt{research\_project/track\_C\_intellitest\_run/make\_4lv\_pdf.py} \\
+Baseline fidelity audit &
+\texttt{research\_project/track\_B\_baselines/REPORT.md} \\
+Execution study + architecture→formula mapping &
+\texttt{research\_project/track\_D\_execution\_teaa/REPORT.md} \\
+Literature review (82 papers) &
+\texttt{research\_project/track\_A\_literature\_review/\{systematic\_review.csv,\ related\_articles.xlsx,\ REPORT.md\}} \\
+New-research + Yun Lin dossier &
+\texttt{research\_project/track\_E\_new\_research/\{new\_papers.csv,\ REPORT.md,\ yun\_lin\_sjtu\_dossier.md\}} \\
+Figures (from real logs) &
+\texttt{research\_project/track\_F\_plots/figures/F1..F6*.png}
+(\texttt{make\_plots.py}) \\
+Per-call LLM logs &
+\texttt{research\_project/track\_C\_intellitest\_run/logs/usage\_*.jsonl} \\
+Shared BytePlus client + logger &
+\texttt{research\_project/shared/llm\_client.py} \\
+Coordination channels &
+\texttt{research\_project/channels/\{MAIN\_LOG.txt,\ writer\_inbox.txt\}} \\
+Live SUT & FullTeaching via Docker at
+\texttt{https://localhost:5000/} \\
+\end{longtable}
+}
+
+\subsection{Appendix B --- Figure index}\label{appendix-b-figure-index}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{F1} Generation: total tokens per model (FullTeaching latest
+  run).
+\item
+  \textbf{F2} Generation: USD cost per model (placeholder rates, labeled
+  as such).
+\item
+  \textbf{F3} Generation: tokens by pipeline module
+  (test\_case\_generator dominates \textasciitilde67\%).
+\item
+  \textbf{F4} Generation: wall-clock minutes per run.
+\item
+  \textbf{F5} Execution: pass/fail by business process (overall 42.2\%
+  success, N=166; BP1 = 132/166).
+\item
+  \textbf{F6} Execution: success rate by action type (done
+  \textasciitilde69\%, click \textasciitilde33\%, input
+  \textasciitilde26\%, upload 50\%).
+\end{itemize}
+
+\subsection{Appendix C --- Environment}\label{appendix-c-environment}
+
+Windows; Python 3.11 venv (\texttt{env/}). Installed for this study:
+\texttt{matplotlib}, \texttt{openpyxl}, \texttt{fpdf2} (in addition to
+the pipeline's \texttt{pydantic}, \texttt{python-dotenv},
+\texttt{allpairspy}, \texttt{rapidfuzz}, \texttt{pypdf},
+\texttt{google-genai}, \texttt{openai}). Docker 29.7.2 for the SUT (git
+required \texttt{core.longpaths=true} on Windows to check out
+FullTeaching's deep Java test paths).
+
+\end{document}

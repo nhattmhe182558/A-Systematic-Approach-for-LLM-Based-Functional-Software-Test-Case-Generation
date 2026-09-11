@@ -1,0 +1,52 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:57:18"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-168",
+      "path_number": "8",
+      "use_case_id": "UC-COM-11",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.2.1.2 Navbar after authenticated",
+        "2.1.1.1 SC-001: Landing Page"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Log out from system",
+      "test_scenario": "BUSINESS FLOW 6: COURSE LIFECYCLE (COURSE DELETION) - Phase 3: Cleanup",
+      "test_case_title": "Teacher Logout After Course Deletion",
+      "pre_condition": "A Teacher is logged into the system and has completed the course deletion process for 'Temporary Course for Deletion', returning to the Dashboard.",
+      "expected_result": "The Teacher's session is terminated, and they are redirected to the 'Landing Page'. All temporary authentication data is cleared, and the system notifies the user of successful logout. The outcome is successful (True).",
+      "post_condition": "The Teacher's session is terminated, and they are on the Landing Page. All authentication data is cleared.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Click the 'Logout' button in the navigation bar.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "System confirms the logout request.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "path_action"
+        },
+        {
+          "step": "System terminates the current user session, clearing any temporary authentication data.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "path_action"
+        },
+        {
+          "step": "System redirects the user to the Landing Page.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "navigation"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": ""
+    }
+  ]
+}

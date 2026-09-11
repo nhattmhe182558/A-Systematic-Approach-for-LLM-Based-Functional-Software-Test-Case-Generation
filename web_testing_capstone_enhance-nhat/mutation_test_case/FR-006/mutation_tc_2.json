@@ -1,0 +1,89 @@
+{
+  "test_case_id": "MTC-050",
+  "path_number": "FR-006-01-TC02",
+  "use_case_id": "FR-006",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Modify Course Modal",
+    "Confirmation Dialog"
+  ],
+  "current_screen": "Confirmation Dialog",
+  "path_step": "Teacher cancels course deletion from the confirmation dialog.",
+  "test_scenario": "Verify that a teacher can cancel the course deletion process from the final confirmation dialog, ensuring the course remains intact.",
+  "test_case_title": "Verify Teacher can cancel course deletion from confirmation dialog",
+  "pre_condition": "Teacher is logged in and has created a course. The 'Modify Course' modal for an existing course is open, 'Allow Deletion' is ticked, and 'Delete' button has been clicked, showing the confirmation dialog.",
+  "expected_result": "The confirmation dialog closes, the 'Modify Course' modal remains open, and the course remains listed on the Dashboard.",
+  "post_condition": "Course exists and is visible on the Dashboard. Teacher remains logged in.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Login as a Teacher.",
+      "screen": "Landing Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Navigate to the Dashboard.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'Edit Course' button next to an existing course to open the 'Modify Course' modal.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Tick the 'Allow Deletion' checkbox.",
+      "screen": "Modify Course Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Delete Button'.",
+      "screen": "Modify Course Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the confirmation dialog appears.",
+      "screen": "Confirmation Dialog",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Cancel' button in the confirmation dialog.",
+      "screen": "Confirmation Dialog",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the confirmation dialog closes and the 'Modify Course' modal is still open.",
+      "screen": "Modify Course Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Cancel Button' in the 'Modify Course' modal to close it.",
+      "screen": "Modify Course Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the course is still present in the list on the Dashboard.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Teacher Username/Email",
+      "field_value": "teacher@example.com"
+    },
+    {
+      "field_name": "Teacher Password",
+      "field_value": "password123"
+    },
+    {
+      "field_name": "Course Name",
+      "field_value": "Course for Deletion Cancellation Test"
+    }
+  ],
+  "uncovered_conditions": [
+    "User canceling the deletion process from the final confirmation dialog.",
+    "Ensuring course integrity upon cancellation at the final stage."
+  ]
+}

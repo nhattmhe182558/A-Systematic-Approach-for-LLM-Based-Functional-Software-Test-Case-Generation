@@ -1,0 +1,60 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:49:18"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-097",
+      "path_number": "9",
+      "use_case_id": "UC-COM-01",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.1.1 SC-001: Landing Page"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Log into system",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 1: Teacher Initializes and Sets Up the Course",
+      "test_case_title": "Teacher logs into the system with valid credentials",
+      "pre_condition": "A Teacher with a pre-provisioned account exists in the system with the username 'GiangGiangteacher@gmail.com' and password 'ValidPassword123!Giangteacher'. The system is online and able to process authentication requests. The Teacher is currently logged out and on the Landing Page.",
+      "expected_result": "The user is authenticated, their session is initiated, and they are redirected to the Dashboard Page.",
+      "post_condition": "The Teacher is logged into the system and is on the Dashboard Page. The Teacher's session is initiated.",
+      "expected_outcome": "True",
+      "test_steps": [
+        {
+          "step": "Click the 'Login' button on the Navbar to open the login modal.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter 'GiangGiangteacher@gmail.com' into the 'Email' field.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter 'ValidPassword123!Giangteacher' into the 'Password' field.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Log In' button to submit credentials.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Login Form_Email",
+          "field_value": "GiangGiangteacher@gmail.com"
+        },
+        {
+          "field_name": "Login Form_Password",
+          "field_value": "ValidPassword123!Giangteacher"
+        }
+      ],
+      "groups_involved": "Initiate Login, Login Form"
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "test_case_id": "MTC-032",
+  "path_number": "UC-COM-07-04",
+  "use_case_id": "UC-COM-07",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Course Details Page",
+    "Forum Tab",
+    "New Entry Modal"
+  ],
+  "current_screen": "New Entry Modal",
+  "path_step": "User attempts to add a new forum entry with an empty title.",
+  "test_scenario": "Verify the system's behavior (error message and form persistence) when a user tries to add a forum entry with invalid (empty) data, as described in AF1.",
+  "test_case_title": "Add Forum Entry with Invalid Data (Empty Title)",
+  "pre_condition": "User (Teacher or Student) is logged in, enrolled in the course, and the forum is active.",
+  "expected_result": "The system displays an error message (e.g., \"Entry title cannot be empty\"), and the 'New Entry' form remains open. The forum remains unchanged without the new entry.",
+  "post_condition": "The 'New Entry' form is still displayed with the error, and the forum's state is unchanged.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Log in as a valid user (Teacher or Student).",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Navigate to the Course Details Page for an active course.",
+      "screen": "Dashboard",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click on the 'Forum' tab.",
+      "screen": "Course Details Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'New Entry' button to open the form.",
+      "screen": "Forum Tab",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Leave the 'Entry Title' input field empty.",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Enter valid 'Entry Content' (e.g., 'This is a test content for an invalid title').",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Add' button.",
+      "screen": "New Entry Modal",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Verify that an error message (e.g., 'Entry title cannot be empty') is displayed next to the 'Entry Title' field or as a modal.",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the 'New Entry' form remains open, allowing the user to correct the input.",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that no new entry has been added to the forum list on the 'Forum' tab.",
+      "screen": "Forum Tab",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Entry Title",
+      "field_value": ""
+    },
+    {
+      "field_name": "Entry Content",
+      "field_value": "This is test content for an invalid title submission."
+    }
+  ],
+  "uncovered_conditions": [
+    "AF1: Invalid Data (System displays an error message, user remains on the form)"
+  ]
+}

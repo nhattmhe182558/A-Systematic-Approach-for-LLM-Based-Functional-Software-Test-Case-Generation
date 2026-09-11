@@ -1,0 +1,41 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:52:40"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-131",
+      "path_number": "27",
+      "use_case_id": "UC-COM-11",
+      "navigation_sequence": [
+        "2.1.1.1 SC-001: Landing Page",
+        "2.1.1.4 SC-006: Video Session Screen"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Log out from system",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 5: Participating in a Live Class",
+      "test_case_title": "Teacher logs out after ending a video session",
+      "pre_condition": "A Teacher (GiangGiangteacher@gmail.com) is logged into the FullTeaching platform and has successfully ended a live video session, being currently on the 'Video Session Screen'.",
+      "expected_result": "The teacher's session is terminated, and they are redirected to the 'Landing Page'. All temporary authentication data is cleared, and the system notifies the user of successful logout. The outcome is successful (True).",
+      "post_condition": "The Teacher is logged out of the FullTeaching platform and is on the 'Landing Page'.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Navigate to 2.1.1.4 SC-006: Video Session Screen",
+          "screen": "2.1.1.4 SC-006: Video Session Screen",
+          "step_type": "navigation"
+        },
+        {
+          "step": "Click the 'Logout' button in the navigation bar to end the session.",
+          "screen": "2.1.1.4 SC-006: Video Session Screen",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": ""
+    }
+  ]
+}

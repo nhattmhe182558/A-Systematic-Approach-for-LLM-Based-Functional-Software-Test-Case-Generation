@@ -1,0 +1,63 @@
+{
+  "test_case_id": "MTC-052",
+  "path_number": "FR-006-01-TC04",
+  "use_case_id": "FR-006",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard (as Student)"
+  ],
+  "current_screen": "Dashboard",
+  "path_step": "Student attempts to delete a course.",
+  "test_scenario": "Verify that a student, who is not authorized to delete courses, cannot initiate or perform a course deletion.",
+  "test_case_title": "Verify student cannot delete a course",
+  "pre_condition": "A student account is registered and logged in. An existing course is available on the Dashboard (e.g., enrolled).",
+  "expected_result": "The 'Edit Course' button (or any equivalent deletion option) is not visible or is disabled for the student on the Dashboard/Course Details page. If somehow accessible, an authorization error should prevent the action.",
+  "post_condition": "No course is deleted. Student remains logged in.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Login as a Student.",
+      "screen": "Landing Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Navigate to the Dashboard.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Verify that no 'Edit Course' button or 'Delete Course' option is visible next to any course.",
+      "screen": "2.1.1.2 SC-004: Dashboard Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "If an 'Edit Course' button is visible, click it and verify access is denied or no deletion option is present in the modal.",
+      "screen": "Course Details Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "If the student somehow bypasses UI and attempts a direct API call for deletion, verify an authorization error is returned.",
+      "screen": "Backend API",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Student Username/Email",
+      "field_value": "student@example.com"
+    },
+    {
+      "field_name": "Student Password",
+      "field_value": "studentpass"
+    },
+    {
+      "field_name": "Course Name",
+      "field_value": "Any Available Course"
+    }
+  ],
+  "uncovered_conditions": [
+    "Role-based access control for course deletion.",
+    "Preventing unauthorized users (students) from deleting courses.",
+    "UI elements reflecting user permissions."
+  ]
+}

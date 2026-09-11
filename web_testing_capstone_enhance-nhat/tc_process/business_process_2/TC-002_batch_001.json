@@ -1,0 +1,50 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:53:17"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-136",
+      "path_number": "2",
+      "use_case_id": "FR-003",
+      "navigation_sequence": [
+        "2.1.1.1 SC-001: Landing Page"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Submit email for verification",
+      "test_scenario": "BUSINESS FLOW 2: USER ACCOUNT RECOVERY SCENARIO",
+      "test_case_title": "Verify Email for Password Recovery - Teacher Account",
+      "pre_condition": "The system is online and able to process authentication requests. A user (Teacher) has a registered account with email 'GiangGiangteacher@gmail.com'. The user is on the Landing Page and the Login modal is open with the 'Forgot Password?' link displayed.",
+      "expected_result": "The system displays a form requesting the user to enter their registered email address for password recovery. Upon entering a valid email, the system validates it, sends a password recovery link, and notifies the user to check their inbox.",
+      "post_condition": "A password recovery email has been sent to 'GiangGiangteacher@gmail.com', and the user is notified on-screen to check their inbox. The system is ready to process the password reset.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Click the 'Forgot Password?' link on the Login Modal.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Enter 'GiangGiangteacher@gmail.com' into the 'Email Input Field'.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Submit' button for email verification.",
+          "screen": "2.1.1.1 SC-001: Landing Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Email Input Field",
+          "field_value": "GiangGiangteacher@gmail.com"
+        }
+      ],
+      "groups_involved": ""
+    }
+  ]
+}

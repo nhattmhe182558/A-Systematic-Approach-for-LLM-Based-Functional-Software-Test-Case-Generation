@@ -1,0 +1,94 @@
+{
+  "test_case_id": "MTC-033",
+  "path_number": "UC-COM-07-05",
+  "use_case_id": "UC-COM-07",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Course Details Page",
+    "Forum Tab",
+    "New Entry Modal"
+  ],
+  "current_screen": "New Entry Modal",
+  "path_step": "User attempts to add a new forum entry while the forum service is unavailable.",
+  "test_scenario": "Verify the system's graceful handling and error reporting when attempting to add a forum entry while the backend service is unavailable, as described in E1.",
+  "test_case_title": "Attempt to Add Forum Entry When System Unavailable",
+  "pre_condition": "User is logged in, enrolled in the course, and the forum is active. The forum management service or database is simulated to be unavailable during the 'Add' action.",
+  "expected_result": "The system logs a critical error and displays a generic error message to the user (e.g., \"Forum management service is temporarily unavailable. Please try again later.\"). The new entry is not added.",
+  "post_condition": "The forum's state remains unchanged, and the system attempts to recover or indicates service unavailability.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Log in as a valid user (Teacher or Student).",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Navigate to the Course Details Page for an active course.",
+      "screen": "Dashboard",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click on the 'Forum' tab.",
+      "screen": "Course Details Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'New Entry' button to open the form.",
+      "screen": "Forum Tab",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Enter a valid 'Entry Title' (e.g., 'Issue with Service').",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Enter valid 'Entry Content' (e.g., 'Testing system unavailability during submission.').",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Simulate forum management service or database becoming unavailable *before* clicking the 'Add' button.",
+      "screen": "Backend System",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Add' button.",
+      "screen": "New Entry Modal",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Verify that a generic error message (e.g., 'Forum management service is temporarily unavailable. Please try again later.') is displayed to the user.",
+      "screen": "New Entry Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify (via logs or monitoring) that a critical error related to service unavailability is logged by the system.",
+      "screen": "Backend System",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that no new entry has been added to the forum list on the 'Forum' tab.",
+      "screen": "Forum Tab",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Entry Title",
+      "field_value": "Issue with Service"
+    },
+    {
+      "field_name": "Entry Content",
+      "field_value": "Testing system unavailability during submission."
+    },
+    {
+      "field_name": "Service State",
+      "field_value": "Unavailable"
+    }
+  ],
+  "uncovered_conditions": [
+    "E1: System Unavailable (critical error logged, generic error message displayed)"
+  ]
+}

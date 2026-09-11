@@ -1,0 +1,63 @@
+{
+  "test_case_id": "MTC-016",
+  "path_number": "UC-COM-08-NF-04-B",
+  "use_case_id": "UC-COM-08",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Course Details Page (Files Tab)"
+  ],
+  "current_screen": "2.1.1.5.4 Files Tab",
+  "path_step": "Teacher deletes an existing file group",
+  "test_scenario": "Verify that a teacher can successfully delete an existing file group after confirmation.",
+  "test_case_title": "TC_UC-COM-08_NF_DeleteExistingFileGroup_Success",
+  "pre_condition": "Teacher is logged in, has access to a course with at least one existing file group (with or without files), and is on the 'Files' tab of the Course Details page.",
+  "expected_result": "The file group is removed from the file structure, and the system displays the updated file structure.",
+  "post_condition": "The file group is deleted from the system.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Navigate to the 'Files' tab on the Course Details page.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'Delete' button next to an existing file group.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System prompts the Teacher for confirmation.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Teacher confirms the deletion.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System deletes the file group.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "path_action"
+    },
+    {
+      "step": "System displays the updated file structure.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "File Group to Delete",
+      "field_value": "Obsolete Resources"
+    },
+    {
+      "field_name": "Confirmation",
+      "field_value": "Yes"
+    }
+  ],
+  "uncovered_conditions": [
+    "Deleting existing file groups functionality"
+  ]
+}

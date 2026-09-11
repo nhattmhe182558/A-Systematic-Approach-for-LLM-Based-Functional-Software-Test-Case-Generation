@@ -1,0 +1,185 @@
+{
+  "test_config": {
+    "website_url": "https://localhost:5000/#/",
+    "timestamp": "2025-12-13T23:03:08.379572",
+    "browser": "Chrome",
+    "test_mode": "Multi-Page Dynamic Generation",
+    "max_pages": 10,
+    "max_depth": 3
+  },
+  "site_map": {
+    "total_pages": 1,
+    "pages_explored": 1,
+    "pages": [
+      {
+        "url": "https://localhost:5000",
+        "title": "FullTeaching",
+        "visited": true,
+        "elements_count": 11,
+        "test_count": 6,
+        "links_to": [
+          "https://localhost:5000"
+        ],
+        "discovered_at": "2025-12-13T23:02:53.327627"
+      }
+    ]
+  },
+  "test_summary": {
+    "total": 6,
+    "success": 0,
+    "failed": 6,
+    "pages_tested": 1
+  },
+  "test_results": [
+    {
+      "id": "TC_1765641777_9527",
+      "page_url": "https://localhost:5000/#/",
+      "functionality": "Verify Navigation to Sign-Up Page",
+      "description": "Verify that clicking the 'SIGN UP' button navigates the user to the sign-up page.",
+      "status": "failed",
+      "timestamp": "2025-12-13T23:02:57.638663",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Observe page",
+          "status": "running",
+          "details": "Action: click",
+          "timestamp": "2025-12-13T23:02:57.639225"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe page",
+          "status": "failed",
+          "details": "Element not found",
+          "timestamp": "2025-12-13T23:02:57.641419"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765641777_6508",
+      "page_url": "https://localhost:5000/#/",
+      "functionality": "Verify Navigation to Login Page",
+      "description": "Verify that clicking the 'LOG IN' link navigates the user to the login page.",
+      "status": "failed",
+      "timestamp": "2025-12-13T23:02:57.649482",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Observe page",
+          "status": "running",
+          "details": "Action: click",
+          "timestamp": "2025-12-13T23:02:57.649863"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe page",
+          "status": "failed",
+          "details": "Element not found",
+          "timestamp": "2025-12-13T23:02:57.649993"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765641777_9108",
+      "page_url": "https://localhost:5000/#/",
+      "functionality": "Verify Logo Navigation",
+      "description": "Verify that clicking on the 'FullTeaching' logo navigates the user to the homepage.",
+      "status": "failed",
+      "timestamp": "2025-12-13T23:02:57.654185",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Observe page",
+          "status": "running",
+          "details": "Action: click",
+          "timestamp": "2025-12-13T23:02:57.654441"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe page",
+          "status": "failed",
+          "details": "Element not found",
+          "timestamp": "2025-12-13T23:02:57.654508"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765641786_9923",
+      "page_url": "https://localhost:5000/#/",
+      "functionality": "Verify SignUp Navigation",
+      "description": "Verify that clicking the 'SIGN UP' link navigates the user to the registration page.",
+      "status": "failed",
+      "timestamp": "2025-12-13T23:03:06.058272",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Observe page",
+          "status": "running",
+          "details": "Action: click",
+          "timestamp": "2025-12-13T23:03:06.058700"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe page",
+          "status": "failed",
+          "details": "Element not found",
+          "timestamp": "2025-12-13T23:03:06.058913"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765641786_4130",
+      "page_url": "https://localhost:5000/#/",
+      "functionality": "Verify Login Navigation",
+      "description": "Verify that clicking the 'LOG IN' link navigates the user to the login page.",
+      "status": "failed",
+      "timestamp": "2025-12-13T23:03:06.068808",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Observe page",
+          "status": "running",
+          "details": "Action: click",
+          "timestamp": "2025-12-13T23:03:06.069233"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe page",
+          "status": "failed",
+          "details": "Element not found",
+          "timestamp": "2025-12-13T23:03:06.069374"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765641786_2967",
+      "page_url": "https://localhost:5000/#/",
+      "functionality": "Verify Logo Navigation",
+      "description": "Verify that clicking the logo navigates to the homepage.",
+      "status": "failed",
+      "timestamp": "2025-12-13T23:03:06.074377",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Observe page",
+          "status": "running",
+          "details": "Action: click",
+          "timestamp": "2025-12-13T23:03:06.074819"
+        },
+        {
+          "step_number": 2,
+          "action": "Observe page",
+          "status": "failed",
+          "details": "Element not found",
+          "timestamp": "2025-12-13T23:03:06.075028"
+        }
+      ],
+      "error": "Action execution failed"
+    }
+  ]
+}

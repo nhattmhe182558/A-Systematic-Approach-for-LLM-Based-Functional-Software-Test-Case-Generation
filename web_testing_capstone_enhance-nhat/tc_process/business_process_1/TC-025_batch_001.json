@@ -1,0 +1,46 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:52:26"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-129",
+      "path_number": "25",
+      "use_case_id": "UC-COM-09",
+      "navigation_sequence": [
+        "2.1.1.4 SC-006: Video Session Screen",
+        "2.1.1.4 SC-006: Video Session Screen"
+      ],
+      "current_screen": "2.1.1.4 SC-006: Video Session Screen",
+      "path_step": "Grant student intervention",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 5: Participating in a Live Class",
+      "test_case_title": "Teacher Grants Student Intervention in Video Session",
+      "pre_condition": "A teacher (GiangGiangteacher@gmail.com) is logged in and actively participating in a live video session. A student (student_newuser@example.com) is also logged in, actively participating in the same live video session, and has previously sent a chat message and requested to speak (intervention). The system is displaying the video session screen with the side menu open, showing the list of students requesting intervention.",
+      "expected_result": "The teacher successfully grants permission for the student to speak. The student's audio and video are broadcast to all participants, and the main video view switches to the student. The system maintains an active video session, reflecting the granted intervention. The outcome is successful (True).",
+      "post_condition": "The teacher's audio and video are broadcast by default, and the main video view has switched to the student. The student's audio and video are actively being broadcast to all participants, and the teacher has the authority to revoke this permission. The system is still in the active video session.",
+      "expected_outcome": "True",
+      "test_steps": [
+        {
+          "step": "Ensure the side menu is open, displaying the list of connected users and intervention requests.",
+          "screen": "2.1.1.4 SC-006: Video Session Screen",
+          "step_type": "navigation"
+        },
+        {
+          "step": "Locate the student 'student_newuser@example.com' in the list of students requesting intervention within the Side Menu.",
+          "screen": "2.1.1.4 SC-006: Video Session Screen",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Grant Permission' button next to the student's name in the Side Menu.",
+          "screen": "2.1.1.4 SC-006: Video Session Screen",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": "End Video Session, Open Side Menu, Send Chat Message, Request to Speak, Grant Student Intervention"
+    }
+  ]
+}

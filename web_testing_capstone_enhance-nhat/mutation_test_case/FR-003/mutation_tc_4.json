@@ -1,0 +1,73 @@
+{
+  "test_case_id": "MTC-048",
+  "path_number": "BF2-NF-Step6-Success",
+  "use_case_id": "FR-003",
+  "navigation_sequence": [
+    "2.1.1.1 SC-001: Landing Page",
+    "Password Reset Page",
+    "2.1.1.1 SC-001: Landing Page"
+  ],
+  "current_screen": "2.1.1.1 SC-001: Landing Page",
+  "path_step": "User successfully resets password and is redirected to the login page with a success message.",
+  "test_scenario": "Verify that after a successful password reset, the system displays a confirmation message and redirects the user to the login page.",
+  "test_case_title": "Verify password reset success and login page redirect",
+  "pre_condition": "User has successfully navigated to the secure password reset page via a valid recovery link and enters a new password conforming to strength rules and confirmation.",
+  "expected_result": "The system displays a success message ('Password updated successfully!'), updates the user's password, and redirects them to the Login Modal, where they can log in with the new password.",
+  "post_condition": "User is on the Login Modal with a successfully updated password.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Initiate password reset for a registered user and submit a valid email address on the '2.1.1.1 SC-001: Landing Page'.",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Click the valid recovery link from the email to navigate to the 'Password Reset Page'.",
+      "screen": "Email Client",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Enter a new valid password in the 'New Password' field on the 'Password Reset Page'.",
+      "screen": "Password Reset Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Re-enter the new valid password in the 'Confirm Password' field on the 'Password Reset Page'.",
+      "screen": "Password Reset Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Submit New Password' button on the 'Password Reset Page'.",
+      "screen": "Password Reset Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify the success message is displayed (on the '2.1.1.1 SC-001: Landing Page' after redirect).",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify redirection to the '2.1.1.1 SC-001: Landing Page' (Login Modal context).",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "navigation"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Email Address",
+      "field_value": "registered_user@example.com"
+    },
+    {
+      "field_name": "New Password",
+      "field_value": "NewSecureP@ssw0rd!"
+    },
+    {
+      "field_name": "Confirm New Password",
+      "field_value": "NewSecureP@ssw0rd!"
+    }
+  ],
+  "uncovered_conditions": [
+    "Success message after password update",
+    "Redirection to login page after successful password reset"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:49:11"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-096",
+      "path_number": "8",
+      "use_case_id": "UC-COM-11",
+      "navigation_sequence": [
+        "2.1.1.2 SC-004: Dashboard Page",
+        "2.1.2.1.2 Navbar after authenticated",
+        "2.1.1.1 SC-001: Landing Page"
+      ],
+      "current_screen": "2.1.1.1 SC-001: Landing Page",
+      "path_step": "Log out from system",
+      "test_scenario": "BUSINESS FLOW 1 (SEQUENTIAL UPDATE): AN END-TO-END USER JOURNEY - Phase 1: Teacher Initializes and Sets Up the Course",
+      "test_case_title": "Student Logs Out from Dashboard",
+      "pre_condition": "A student user is successfully logged in and is currently on the Dashboard Page. Their session is active.",
+      "expected_result": "The student's session is terminated and they are redirected to the Landing Page. All temporary authentication data is cleared, and the system notifies the user of successful logout.",
+      "post_condition": "The user is successfully logged out and the system displays the Landing Page, ready for a new login or registration.",
+      "expected_outcome": "true",
+      "test_steps": [
+        {
+          "step": "Click the 'Logout' button in the navigation bar.",
+          "screen": "2.1.1.2 SC-004: Dashboard Page",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [],
+      "groups_involved": ""
+    }
+  ]
+}

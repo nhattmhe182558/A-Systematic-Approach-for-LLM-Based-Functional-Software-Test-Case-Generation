@@ -1,0 +1,53 @@
+{
+  "test_case_id": "MTC-042",
+  "path_number": "UC-COM-10-AF1-01",
+  "use_case_id": "UC-COM-10",
+  "navigation_sequence": [
+    "Landing Page",
+    "Login Modal",
+    "Dashboard Page",
+    "Calendar Page"
+  ],
+  "current_screen": "Calendar Page",
+  "path_step": "User navigates to the calendar page when no sessions are scheduled for their enrolled courses.",
+  "test_scenario": "Verify that the calendar page correctly displays as empty when the user has no scheduled sessions for any of their enrolled courses.",
+  "test_case_title": "Display Empty Calendar for User with No Scheduled Sessions",
+  "pre_condition": "A user (Student or Teacher) is logged in and enrolled in at least one course, but there are no sessions scheduled for any of their enrolled courses.",
+  "expected_result": "The calendar is displayed, but it appears empty, indicating no scheduled sessions. The system should clearly convey that no sessions are planned.",
+  "post_condition": "The user successfully views an empty calendar page.",
+  "expected_outcome": "true",
+  "test_steps": [
+    {
+      "step": "Log in as a user who is enrolled in at least one course but has no sessions scheduled for any of their enrolled courses.",
+      "screen": "Login Modal",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Navigate to the 'Calendar' page from the Dashboard.",
+      "screen": "Dashboard Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Verify that the calendar is displayed and clearly shows no scheduled sessions (e.g., an empty calendar view, a 'No Sessions' message).",
+      "screen": "Calendar Page",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "username",
+      "field_value": "user_no_sessions@example.com"
+    },
+    {
+      "field_name": "password",
+      "field_value": "password123"
+    },
+    {
+      "field_name": "scheduled_sessions",
+      "field_value": "none"
+    }
+  ],
+  "uncovered_conditions": [
+    "AF1: No Sessions"
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "test_case_id": "MTC-017",
+  "path_number": "UC-COM-08-AF-01-A",
+  "use_case_id": "UC-COM-08",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Course Details Page (Files Tab)"
+  ],
+  "current_screen": "2.1.1.5.4 Files Tab",
+  "path_step": "Teacher attempts to edit a file group with an invalid title",
+  "test_scenario": "Verify that the system handles invalid data gracefully when editing a file group, displaying an error message and keeping the teacher on the form.",
+  "test_case_title": "TC_UC-COM-08_AF_EditFileGroup_InvalidTitle",
+  "pre_condition": "Teacher is logged in, has access to a course with at least one existing file group, and is on the 'Files' tab of the Course Details page.",
+  "expected_result": "System displays an error message (e.g., \"Invalid file group title.\") and the Teacher remains on the edit file group form. The file group title is not updated.",
+  "post_condition": "The file group's title remains unchanged.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Navigate to the 'Files' tab on the Course Details page.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'Edit' button next to an existing file group.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System displays a form with existing file group data.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Modify the file group title with an invalid value (e.g., containing prohibited special characters or exceeding max length).",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Save' button.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System validates the entered data and finds it invalid.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "path_action"
+    },
+    {
+      "step": "System displays an error message.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Teacher remains on the form.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Existing File Group Title",
+      "field_value": "Course Materials"
+    },
+    {
+      "field_name": "New Invalid File Group Title",
+      "field_value": "Course#Materials!"
+    }
+  ],
+  "uncovered_conditions": [
+    "AF1: Invalid Data during editing file group",
+    "Validation rules beyond emptiness (e.g., special characters, length for file group title)"
+  ]
+}

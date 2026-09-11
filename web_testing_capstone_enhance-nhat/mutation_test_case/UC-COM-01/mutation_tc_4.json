@@ -1,0 +1,62 @@
+{
+  "test_case_id": "MTC-004",
+  "path_number": "1.2.1-AF2-2",
+  "use_case_id": "UC-COM-01",
+  "navigation_sequence": [
+    "2.1.1.1 SC-001: Landing Page",
+    "Login Modal"
+  ],
+  "current_screen": "Login Modal",
+  "path_step": "System logs failed attempts, locks the account, and displays an error message after multiple invalid login attempts.",
+  "test_scenario": "Testing the account locking mechanism by performing multiple invalid login attempts until the account is locked.",
+  "test_case_title": "Account Lock After Multiple Invalid Login Attempts",
+  "pre_condition": "A valid user account exists, and the system implements an account locking mechanism after a defined number of failed login attempts (e.g., 3-5).",
+  "expected_result": "After 'N' (e.g., 3 or 5) invalid login attempts, the account is locked, and an error message like \"Invalid credentials. Your account has been temporarily locked due to multiple failed attempts.\" is displayed. The user remains on the login modal.",
+  "post_condition": "The user account is locked, and the user is not logged in.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Identify a test user account (e.g., user_for_locktest@example.com) that is not currently locked.",
+      "screen": "System Configuration",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Determine the number of failed attempts (N) that trigger account locking in the system (e.g., N=3).",
+      "screen": "System Configuration",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Repeat the following steps N-1 times: Navigate to Landing Page, Open Login modal, Enter valid username/email and an *invalid* password, Click 'Login' button. Verify \"Invalid username or password. Please try again.\" message.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "On the Nth attempt: Navigate to the Landing Page, Open the Login modal, Enter the valid username/email and an *invalid* password, Click the 'Login' button.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that an error message like \"Invalid credentials. Your account has been temporarily locked due to multiple failed attempts.\" is displayed.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the user remains on the login modal.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Username/Email",
+      "field_value": "user_for_locktest@example.com"
+    },
+    {
+      "field_name": "Password (Invalid)",
+      "field_value": "InvalidPassword123"
+    }
+  ],
+  "uncovered_conditions": [
+    "AF2: Account Locked (invalid credentials trigger account lock scenario)"
+  ]
+}

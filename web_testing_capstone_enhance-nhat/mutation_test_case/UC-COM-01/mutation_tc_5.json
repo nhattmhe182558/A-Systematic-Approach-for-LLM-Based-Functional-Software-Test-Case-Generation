@@ -1,0 +1,67 @@
+{
+  "test_case_id": "MTC-005",
+  "path_number": "1.2.1-E1",
+  "use_case_id": "UC-COM-01",
+  "navigation_sequence": [
+    "2.1.1.1 SC-001: Landing Page",
+    "Login Modal"
+  ],
+  "current_screen": "Login Modal",
+  "path_step": "System displays a generic error message when the authentication service is unavailable during login.",
+  "test_scenario": "Attempting to log in when the underlying authentication service or database is not accessible.",
+  "test_case_title": "Login with System Unavailable",
+  "pre_condition": "The authentication service or database responsible for processing login requests is simulated to be unavailable or offline. A valid user account exists.",
+  "expected_result": "System displays a generic error message like \"Login service is temporarily unavailable. Please try again later.\" The user remains on the login modal.",
+  "post_condition": "User is not logged in; system state is unchanged regarding login.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Configure the environment to simulate an unavailable authentication service or database.",
+      "screen": "System Configuration",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Navigate to the Landing Page.",
+      "screen": "2.1.1.1 SC-001: Landing Page",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Open the Login modal.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Enter valid username/email and password for any registered user.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Click the 'Login' button.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that a generic error message like \"Login service is temporarily unavailable. Please try again later.\" is displayed.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the user remains on the login modal.",
+      "screen": "Login Modal",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "Username/Email",
+      "field_value": "anyuser@example.com"
+    },
+    {
+      "field_name": "Password",
+      "field_value": "ValidPassword123"
+    }
+  ],
+  "uncovered_conditions": [
+    "E1: System Unavailable"
+  ]
+}

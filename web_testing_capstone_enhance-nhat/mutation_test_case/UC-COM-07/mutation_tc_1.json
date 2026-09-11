@@ -1,0 +1,42 @@
+{
+  "test_case_id": "MTC-029",
+  "path_number": "UC-COM-07-01",
+  "use_case_id": "UC-COM-07",
+  "navigation_sequence": [
+    "Landing Page"
+  ],
+  "current_screen": "Landing Page",
+  "path_step": "User attempts to navigate to the forum or course details page while logged out.",
+  "test_scenario": "Verify that a user cannot access the forum or its course details page if they are not logged in.",
+  "test_case_title": "Attempt to Access Forum While Logged Out",
+  "pre_condition": "User is currently logged out of the system.",
+  "expected_result": "User is redirected to the Login/Landing page or receives an error message preventing access to the course details or forum tab.",
+  "post_condition": "User remains logged out and cannot access forum features.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Ensure the user is logged out.",
+      "screen": "Any Page",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Attempt to navigate directly to a Course Details Page URL or a Forum Tab URL (e.g., by pasting the URL into the browser).",
+      "screen": "Course Details Page / Forum Tab",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Verify that the system redirects the user to the Landing Page or Login Modal.",
+      "screen": "Landing Page / Login Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Verify that the forum content or functionality is not displayed.",
+      "screen": "Landing Page / Login Modal",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [],
+  "uncovered_conditions": [
+    "Precondition: The user must be logged in."
+  ]
+}

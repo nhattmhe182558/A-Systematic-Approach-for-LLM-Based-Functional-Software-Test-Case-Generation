@@ -1,0 +1,56 @@
+{
+  "summary": {
+    "total_cases_in_file": 1,
+    "generated_cases": 1,
+    "progress": "1 / 1",
+    "last_updated": "2025-10-23 18:54:59"
+  },
+  "test_cases": [
+    {
+      "test_case_id": "TC-150",
+      "path_number": "5",
+      "use_case_id": "UC-COM-05",
+      "navigation_sequence": [
+        "2.1.1.3 SC-005: Course Details Page",
+        "2.1.1.5.5 Add New Attenders Modal (from Students Tab)"
+      ],
+      "current_screen": "2.1.1.3 SC-005: Course Details Page",
+      "path_step": "The Teacher enrolls students via file upload by clicking the 'Add Student' button, selecting the 'From File' tab, uploading a .txt file containing a list of emails, and clicking the 'Send Button'.",
+      "test_scenario": "BUSINESS FLOW 4: BULK STUDENT MANAGEMENT AND REMOVAL - Phase 3: Test Import from File Enrollment",
+      "test_case_title": "Teacher enrolls students via file upload",
+      "pre_condition": "A Teacher with the email 'GiangGiangteacher@gmail.com' and password 'ValidPassword123!Giangteacher' is logged in and has navigated to the 'Students' tab of a pre-existing course, and the 'Add New Attenders Modal' is open. The 'From File' tab is selected, and a file input field is visible. There are existing valid students 'student_valid_1@example.com' and 'student_valid_2@example.com' already enrolled from previous steps.",
+      "expected_result": "The system successfully enrolls the students from the uploaded file ('valid_file_with_emails_not_enrolled') into the course. The student list for the course is updated to display the newly enrolled students from the file. The system reports a summary of successful enrollments. The outcome is successful (True).",
+      "post_condition": "The specified students from the file are enrolled in the course, and the student list is updated and displayed on the 'Students' tab. The 'Add New Attenders Modal' is closed.",
+      "expected_outcome": "True",
+      "test_steps": [
+        {
+          "step": "Click the 'Add Student' button to open the 'Add new attenders' modal.",
+          "screen": "2.1.1.3 SC-005: Course Details Page",
+          "step_type": "path_action"
+        },
+        {
+          "step": "Click the 'From File' tab within the 'Add new attenders' modal.",
+          "screen": "2.1.1.5.5 Add New Attenders Modal (from Students Tab)",
+          "step_type": "path_action"
+        },
+        {
+          "step": "Upload the file 'valid_file_with_emails_not_enrolled.txt' into the 'File Uploader' field.",
+          "screen": "2.1.1.5.5 Add New Attenders Modal (from Students Tab)",
+          "step_type": "test_action"
+        },
+        {
+          "step": "Click the 'Send' button to add the specified students.",
+          "screen": "2.1.1.5.5 Add New Attenders Modal (from Students Tab)",
+          "step_type": "test_action"
+        }
+      ],
+      "test_data_fields": [
+        {
+          "field_name": "Add Students From File_File Uploader",
+          "field_value": "valid_file_with_emails_not_enrolled.txt"
+        }
+      ],
+      "groups_involved": "Add Students - Tabs, Add Multiple Students, Add Students From File"
+    }
+  ]
+}

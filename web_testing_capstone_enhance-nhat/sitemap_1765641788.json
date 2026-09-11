@@ -1,0 +1,12 @@
+{
+  "discovered_at": "2025-12-13T23:03:08.381670",
+  "base_url": "https://localhost:5000/#/",
+  "pages": [
+    {
+      "url": "https://localhost:5000",
+      "title": "FullTeaching",
+      "elements": 11,
+      "links": 1
+    }
+  ]
+}

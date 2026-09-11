@@ -1,0 +1,75 @@
+{
+  "test_case_id": "MTC-018",
+  "path_number": "UC-COM-08-E-01-A",
+  "use_case_id": "UC-COM-08",
+  "navigation_sequence": [
+    "Landing Page",
+    "Dashboard",
+    "Course Details Page (Files Tab)",
+    "Add File Modal"
+  ],
+  "current_screen": "2.1.1.5.4.2 Add files Modal",
+  "path_step": "Teacher attempts to upload a file while the file management service is unavailable",
+  "test_scenario": "Verify that the system handles service unavailability during file upload, logging a critical error and displaying a generic error message to the user.",
+  "test_case_title": "TC_UC-COM-08_E_FileUpload_SystemUnavailable",
+  "pre_condition": "Teacher is logged in, has access to a course, is on the 'Files' tab, and the file management service or database is simulated to be unavailable.",
+  "expected_result": "System logs a critical error and displays a generic error message (e.g., \"File management service is temporarily unavailable. Please try again later.\") on the Add File Modal. The file is not uploaded.",
+  "post_condition": "File not uploaded. System error logged.",
+  "expected_outcome": "false",
+  "test_steps": [
+    {
+      "step": "Navigate to the 'Files' tab on the Course Details page.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "navigation"
+    },
+    {
+      "step": "Click the 'Add File' button to open the Add files Modal.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Select a file for upload.",
+      "screen": "2.1.1.5.4.2 Add files Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "Simulate file management service/database unavailability.",
+      "screen": "2.1.1.5.4.2 Add files Modal",
+      "step_type": "path_action"
+    },
+    {
+      "step": "Click the 'Upload Button'.",
+      "screen": "2.1.1.5.4.2 Add files Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "System attempts to upload the file, encounters unavailability.",
+      "screen": "2.1.1.5.4.2 Add files Modal",
+      "step_type": "path_action"
+    },
+    {
+      "step": "System logs a critical error.",
+      "screen": "2.1.1.5.4.2 Add files Modal",
+      "step_type": "path_action"
+    },
+    {
+      "step": "System displays a generic error message.",
+      "screen": "2.1.1.5.4.2 Add files Modal",
+      "step_type": "test_action"
+    },
+    {
+      "step": "The file is not added to the course.",
+      "screen": "2.1.1.5.4 Files Tab",
+      "step_type": "test_action"
+    }
+  ],
+  "test_data_fields": [
+    {
+      "field_name": "File to Upload",
+      "field_value": "document.pdf"
+    }
+  ],
+  "uncovered_conditions": [
+    "E1: System Unavailable for file management operations"
+  ]
+}

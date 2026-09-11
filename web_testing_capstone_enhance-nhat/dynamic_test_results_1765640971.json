@@ -1,0 +1,211 @@
+{
+  "test_config": {
+    "website_url": "https://localhost:5000/#/",
+    "timestamp": "2025-12-13T22:49:31.006394",
+    "browser": "Chrome",
+    "test_mode": "Dynamic Generation"
+  },
+  "summary": {
+    "total": 5,
+    "success": 2,
+    "failed": 3,
+    "generated_tests": 0
+  },
+  "results": [
+    {
+      "id": "TC_1765640935_4725",
+      "functionality": "Verify SignUp Button Navigation",
+      "description": "Test that the SIGN UP button navigates to the registration page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 3 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Click link: FullTeaching",
+          "status": "running",
+          "details": "Action: click on logo-container"
+        },
+        {
+          "step_number": 3,
+          "action": "Click link: FullTeaching",
+          "status": "success",
+          "details": "Clicked successfully"
+        },
+        {
+          "step_number": 4,
+          "action": "Click link: SIGN UP",
+          "status": "running",
+          "details": "Action: click on signUpButton"
+        },
+        {
+          "step_number": 5,
+          "action": "Click link: SIGN UP",
+          "status": "success",
+          "details": "Clicked successfully"
+        },
+        {
+          "step_number": 6,
+          "action": "Click link: LOG IN",
+          "status": "running",
+          "details": "Action: click on a_2"
+        },
+        {
+          "step_number": 7,
+          "action": "Click link: LOG IN",
+          "status": "failed",
+          "details": "Element not found: {'type': 'id', 'value': 'a_2'}"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765640962_8306",
+      "functionality": "Verify Login Button Navigation",
+      "description": "Test that the LOG IN button navigates to the login page.",
+      "status": "success",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 2 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Enter username/email",
+          "status": "running",
+          "details": "Action: input on email"
+        },
+        {
+          "step_number": 3,
+          "action": "Enter username/email",
+          "status": "success",
+          "details": "Entered: test@example.com"
+        },
+        {
+          "step_number": 4,
+          "action": "Enter password",
+          "status": "running",
+          "details": "Action: input on password"
+        },
+        {
+          "step_number": 5,
+          "action": "Enter password",
+          "status": "success",
+          "details": "Entered: password123"
+        },
+        {
+          "step_number": 6,
+          "action": "Test Validation",
+          "status": "success",
+          "details": "Check for expected page changes"
+        }
+      ],
+      "error": null
+    },
+    {
+      "id": "TC_1765640964_8277",
+      "functionality": "Verify Logo Navigation to Home",
+      "description": "Test that clicking the logo navigates back to the home page.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 3 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Click link: FullTeaching",
+          "status": "running",
+          "details": "Action: click on logo-container"
+        },
+        {
+          "step_number": 3,
+          "action": "Click link: FullTeaching",
+          "status": "failed",
+          "details": "Error: Message: element click intercepted: Element <a _ngcontent-c1=\"\" class=\"brand-logo app-title-header white-text\" href=\"/\" id=\"logo-container\">...</a> is not clickable at point (404, 32). Other element would receive the click: <div class=\"modal-overlay\" id=\"materialize-modal-overlay-1\" style=\"z-index: 1002; display: block; opacity: 0.5;\"></div>\n  (Session info: chrome=143.0.7499.41); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception\nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff6836d8245\n\t0x7ff6836d82a0\n\t0x7ff6834b165d\n\t0x7ff6835119e8\n\t0x7ff68350f40f\n\t0x7ff68350c417\n\t0x7ff68350b338\n\t0x7ff6834fce7f\n\t0x7ff683531fda\n\t0x7ff6834fc746\n\t0x7ff68355ac97\n\t0x7ff6834fac29\n\t0x7ff6834fba93\n\t0x7ff6839effe0\n\t0x7ff6839ea920\n\t0x7ff683a09086\n\t0x7ff6836f5744\n\t0x7ff6836fe6ec\n\t0x7ff6836e1964\n\t0x7ff6836e1b15\n\t0x7ff6836c7842\n\t0x7ffadefde8d7\n\t0x7ffae044c53c\n"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765640965_9652",
+      "functionality": "Verify GitHub Repository Link",
+      "description": "Test that the GitHub repository link opens the correct external URL.",
+      "status": "failed",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 3 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Click link: FullTeaching",
+          "status": "running",
+          "details": "Action: click on logo-container"
+        },
+        {
+          "step_number": 3,
+          "action": "Click link: FullTeaching",
+          "status": "failed",
+          "details": "Error: Message: element click intercepted: Element <a _ngcontent-c1=\"\" class=\"brand-logo app-title-header white-text\" href=\"/\" id=\"logo-container\">...</a> is not clickable at point (404, 32). Other element would receive the click: <div class=\"modal-overlay\" id=\"materialize-modal-overlay-1\" style=\"z-index: 1002; display: block; opacity: 0.5;\"></div>\n  (Session info: chrome=143.0.7499.41); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementclickinterceptedexception\nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff6836d8245\n\t0x7ff6836d82a0\n\t0x7ff6834b165d\n\t0x7ff6835119e8\n\t0x7ff68350f40f\n\t0x7ff68350c417\n\t0x7ff68350b338\n\t0x7ff6834fce7f\n\t0x7ff683531fda\n\t0x7ff6834fc746\n\t0x7ff68355ac97\n\t0x7ff6834fac29\n\t0x7ff6834fba93\n\t0x7ff6839effe0\n\t0x7ff6839ea920\n\t0x7ff683a09086\n\t0x7ff6836f5744\n\t0x7ff6836fe6ec\n\t0x7ff6836e1964\n\t0x7ff6836e1b15\n\t0x7ff6836c7842\n\t0x7ffadefde8d7\n\t0x7ffae044c53c\n"
+        }
+      ],
+      "error": "Action execution failed"
+    },
+    {
+      "id": "TC_1765640967_7410",
+      "functionality": "Welcome button exists",
+      "description": "Test that the WELCOME! button exists",
+      "status": "success",
+      "steps": [
+        {
+          "step_number": 1,
+          "action": "Test Strategy Generated",
+          "status": "success",
+          "details": "Created plan with 2 actions"
+        },
+        {
+          "step_number": 2,
+          "action": "Enter data in email",
+          "status": "running",
+          "details": "Action: input on email"
+        },
+        {
+          "step_number": 3,
+          "action": "Enter data in email",
+          "status": "success",
+          "details": "Entered: test"
+        },
+        {
+          "step_number": 4,
+          "action": "Enter data in nickName",
+          "status": "running",
+          "details": "Action: input on nickName"
+        },
+        {
+          "step_number": 5,
+          "action": "Enter data in nickName",
+          "status": "success",
+          "details": "Entered: test"
+        },
+        {
+          "step_number": 6,
+          "action": "Test Validation",
+          "status": "success",
+          "details": "Check for expected page changes"
+        }
+      ],
+      "error": null
+    }
+  ]
+}

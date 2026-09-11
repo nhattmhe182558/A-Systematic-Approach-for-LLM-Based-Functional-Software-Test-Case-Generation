@@ -23,6 +23,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import threading
 import time
 from collections import deque
@@ -35,6 +36,9 @@ from pydantic import BaseModel, Field, field_validator
 import config
 
 TModel = TypeVar("TModel", bound=BaseModel)
+
+# Lock for thread-safe DeepSeek usage logging (used by DeepSeekProvider._log_usage).
+_DEEPSEEK_LOG_LOCK = threading.Lock()
 
 
 # ===========================================================================
@@ -846,6 +850,7 @@ class DeepSeekProvider(LLMProvider):
 
     def generate_structured(self, prompt, schema, module_name="unknown", thinking_budget=None):
         system = _build_document_system_prompt(self.document_text, schema)
+        _t0 = time.time()
         try:
             response = self.client.chat.completions.create(
                 model=self.model_name,
@@ -853,8 +858,54 @@ class DeepSeekProvider(LLMProvider):
                           {"role": "user", "content": prompt}],
                 response_format={"type": "json_object"},
                 temperature=0.2,
+                max_tokens=int(os.getenv("DEEPSEEK_MAX_TOKENS", "16384")),
             )
+            self._log_usage(response, module_name, _t0, status="SUCCESS")
             return schema.model_validate_json(response.choices[0].message.content)
         except Exception as e:  # noqa: BLE001
+            self._log_usage(None, module_name, _t0, status="FAILED", error=str(e))
             print(f"Warning: LLM call failed ({module_name}). Error: {e}")
             return None
+
+    def _log_usage(self, response, module_name, t0, status="SUCCESS", error=None):
+        """Append per-call usage to the JSONL at DEEPSEEK_USAGE_LOG (if set).
+
+        Optional and side-effect-free when the env var is absent, so the
+        original pipeline behaviour is unchanged when run standalone.
+        """
+        log_path = os.getenv("DEEPSEEK_USAGE_LOG")
+        if not log_path:
+            return
+        pt = ct = tt = 0
+        if response is not None and getattr(response, "usage", None):
+            pt = response.usage.prompt_tokens or 0
+            ct = response.usage.completion_tokens or 0
+            tt = response.usage.total_tokens or (pt + ct)
+        # Placeholder pricing per 1M tokens (raw tokens always logged so USD is recomputable).
+        rates = {
+            "dola-seed-2-1-turbo-260628":  {"in": 0.30, "out": 1.20},
+            "deepseek-v4-pro-ga-260813":   {"in": 0.55, "out": 2.20},
+            "deepseek-v4-flash-ga-260731": {"in": 0.15, "out": 0.60},
+        }.get(self.model_name, {"in": 0.0, "out": 0.0})
+        cost = (pt / 1_000_000.0) * rates["in"] + (ct / 1_000_000.0) * rates["out"]
+        record = {
+            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            "track": "track_C_intellitest_run",
+            "module": module_name,
+            "model_id": self.model_name,
+            "status": status,
+            "error": error,
+            "latency_s": round(time.time() - t0, 3),
+            "prompt_tokens": pt,
+            "completion_tokens": ct,
+            "total_tokens": tt,
+            "usd_cost": round(cost, 6),
+            "pricing_placeholder": True,
+        }
+        try:
+            with _DEEPSEEK_LOG_LOCK:
+                Path(log_path).parent.mkdir(parents=True, exist_ok=True)
+                with open(log_path, "a", encoding="utf-8") as f:
+                    f.write(json.dumps(record, ensure_ascii=False) + "\n")
+        except Exception:  # noqa: BLE001
+            pass
