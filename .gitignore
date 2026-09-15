@@ -57,6 +57,7 @@ web_testing_capstone_enhance-nhat/**/__pycache__/
 
 # Cloned SUT (re-clonable from GitHub; do not vendor)
 research_project/track_D_execution_teaa/full-teaching/
+literature_review_pdfs/
 
 # ============================================================================
 # OS / editor

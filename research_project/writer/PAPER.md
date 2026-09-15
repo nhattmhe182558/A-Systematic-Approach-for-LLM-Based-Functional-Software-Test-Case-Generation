@@ -426,6 +426,36 @@ downstream quality delta not measured here.
 Baseline 1 required the intended manual **RQ1→RQ2 bridge** (the model emitted scenarios in a `**SCENARIO N:**`
 format; copying the RQ1 output into `inputTestScenarios.txt` allowed RQ2 title extraction to succeed).
 
+**Cross-method comparison, same input (4LV/RetailOnboardPro sample).** Figures F1–F2 plot IntelliTest
+(flash, pro) directly against all three baselines on the identical 4LV sample, using each method's own
+per-call billing log (not an estimate):
+
+| Method | Total tokens | Cost | Calls | Avg. tokens/call |
+|---|---:|---:|---:|---:|
+| IntelliTest (flash) | 429,097 | $0.167 | 40 | 10,727 |
+| IntelliTest (pro) | 66,774 | $0.090 | 10 | 6,677 |
+| Baseline 1 (Augusto) | **569,337** | **$1.090** | 27 | **21,087** |
+| Baseline 2 (Milchevski) | 131,072 | $0.282 | 28 | 4,681 |
+| Baseline 3 (Bhatia) | 10,858 | $0.019 | 3 | 3,619 |
+
+Three observations follow directly from this comparison (Figure F1, F2):
+
+1. **Baseline 1 (Augusto) is the most expensive method on this input** — 569,337 tokens / $1.09, more than
+   any IntelliTest configuration, driven by its highest average tokens-per-call (21,087): its Few-Shot+CoT
+   prompts embed the full example test-case bank on every RQ2 call (leave-one-out cross-validation resends a
+   large example set each time), which is expensive but is also *by design* (verbatim to the original method).
+2. **Baseline 3 (Bhatia) is by far the cheapest** (10,858 tokens / $0.019, only 3 calls) because its
+   conversational design amortizes the SRS across a single chat session and asks for all test cases per use
+   case in one shot — but the fidelity audit (§IV-A baselines) shows this comes at the cost of shallower,
+   less-structured output (a flat 6-column Markdown table, no BVA/Pairwise optimization, no navigational
+   grounding) compared with IntelliTest's ISO-style, stateful output.
+3. **IntelliTest's own model choice matters more than the choice of baseline vs. IntelliTest**: pro
+   (66,774 tokens) is cheaper on this small input than every baseline except Bhatia, while flash
+   (429,097 tokens) sits between Milchevski and Augusto. This says less about "IntelliTest vs. baselines"
+   in the abstract and more about "cost scales with how much structure and cross-validation a method
+   builds into every call" — the deterministic algorithms IntelliTest layers on top of the LLM (EP, BVA,
+   Pairwise) are cheap; what varies is how verbose each method's *prompting strategy* is per call.
+
 ### IV-C. Execution results (TEAA on live FullTeaching)
 
 Verified programmatically from `my_method_evaluation_summary.json`; all aggregates reconcile exactly.
@@ -467,6 +497,35 @@ results** (failed 132, passed 26, skipped 11), with errors referencing Cypress, 
 and elements "obscured by the logo header." These are the **static-script (AutoUAT-style) baseline**, not the
 TEAA agent, and they evidence the thesis's "Static Script Fallacy" — high failure from race conditions and
 obscured elements, motivating the self-healing agent layer.
+
+**Head-to-head, same SUT: agentic TEAA vs. static-script baseline (Figures F5–F6).** Directly comparing the
+two execution paradigms on the same live FullTeaching SUT:
+
+| Paradigm | N | Passed | Success rate |
+|---|---:|---:|---:|
+| **TEAA agent** (agentic, self-healing) | 166 | 70 | **42.2%** |
+| **Static script** (Cypress/AutoUAT-style) | 169 | 26 | **15.4%** |
+
+The agentic approach passes **~2.7× the proportion** of test cases that the static-script baseline does on
+a comparably-sized suite. The *reason* differs sharply between paradigms (Figure F6): the static script's
+failures are overwhelmingly (78%, 132/169) plain **Failed** outcomes attributable to brittle selectors and
+timing/race conditions against a dynamic Angular UI, with no mechanism to recover once a selector goes stale.
+The TEAA agent's failures split into **Web/DOM failures (37%, 61/96)** — the same class of brittleness, but
+partially mitigated by DOM re-abstraction on each step — and **LLM failures (21%, 35/96)**, a *new* failure
+mode introduced by the agent's own reasoning (e.g., choosing a plausible but non-existent element `id`). In
+other words, the agentic approach trades a fraction of the static approach's brittleness failures for a
+smaller number of reasoning failures, and nets a substantially higher pass rate. This is the central Phase-2
+argument for TEAA over a static-script alternative on a dynamic SUT, though it does not eliminate the
+brittleness problem — it converts most of it into a partially self-healing form.
+
+**Where the agent still struggles (Figure F7).** Breaking down TEAA's own success rate by action type shows
+the same brittleness surfacing internally: `done` (task self-termination) succeeds 68.8% of the time, but
+`click` succeeds only 33.0% and `input` only 25.7% — the two actions that require the agent to have correctly
+identified a *specific* element via a selector it inferred from the abstracted DOM. `upload` (n=8, 50%) is
+too small a sample to generalize. This localizes the agent's weakness precisely: not "does the agent decide
+correctly" (its `done` signal is comparatively reliable) but "does the agent's selector match the live DOM,"
+which is exactly the self-healing/selector-repair problem the newest literature (arXiv:2603.20358,
+arXiv:2605.01471) is now targeting.
 
 
 ---
@@ -607,12 +666,22 @@ New Research 2025-26 [19], All References [101 rows]). Primary anchors cited abo
 
 ## Appendix B — Figure index
 
-- **F1** Generation: total tokens per model (FullTeaching latest run).
-- **F2** Generation: USD cost per model (placeholder rates, labeled as such).
-- **F3** Generation: tokens by pipeline module (test_case_generator dominates ~67%).
-- **F4** Generation: wall-clock minutes per run.
-- **F5** Execution: pass/fail by business process (overall 42.2% success, N=166; BP1 = 132/166).
-- **F6** Execution: success rate by action type (done ~69%, click ~33%, input ~26%, upload 50%).
+**Phase 1 — Generation (IntelliTest vs. Baselines 1/2/3):**
+- **F1** Total tokens and USD cost per method, same 4LV/RetailOnboardPro input (IntelliTest flash/pro vs.
+  Baseline 1/2/3) — the primary cross-method cost comparison.
+- **F2** Number of LLM calls and average tokens/call per method — efficiency view explaining *why* costs
+  differ (Baseline 1's cross-validation prompts are the most token-hungry per call).
+- **F3** IntelliTest model comparison: flash vs. pro on the full-scale FullTeaching run (tokens, cost, calls).
+- **F4** IntelliTest tokens by pipeline stage (FullTeaching, flash) — `test_case_generator` dominates.
+
+**Phase 2 — Execution (TEAA agent vs. static-script baseline):**
+- **F5** Headline comparison: TEAA (42.2% success, N=166) vs. static-script/Cypress baseline (15.4%, N=169)
+  on the same live FullTeaching SUT.
+- **F6** Failure-mode attribution for each paradigm — static script: 78% plain failures (brittle
+  selectors/race conditions); TEAA: 37% web/DOM failures + 21% LLM reasoning failures.
+- **F7** TEAA success rate by browser-action type — `done` 69% vs. `click` 33% / `input` 26%, localizing the
+  agent's weakness to selector grounding, not decision-making.
+- **F8** TEAA pass/fail by business process (BP1 carries 132/166 of all executed cases).
 
 ## Appendix C — Environment
 
